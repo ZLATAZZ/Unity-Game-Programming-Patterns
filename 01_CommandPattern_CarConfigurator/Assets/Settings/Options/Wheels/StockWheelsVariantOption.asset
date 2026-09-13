@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7478d05b62d031241bb3846a16ebb5f4, type: 3}
+  m_Name: StockWheelsVariantOption
+  m_EditorClassIdentifier: Assembly-CSharp::Patterns.Command.Customization.Variants.VariantOption
+  _displayName: Stock Wheels
+  _icon: {fileID: 516255508, guid: 4ba73fd501aea31479a12024bdc1959c, type: 3}
+  _prefab: {fileID: 5234970616168743852, guid: 5a945bae87b80b34a9a956cbe81dc61a, type: 3}
+  _allowEmpty: 0
