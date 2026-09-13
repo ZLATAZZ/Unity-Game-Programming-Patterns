@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e104b387fdf614d41b54192841d8dac2, type: 3}
   m_Name: BlackMaterialOption
   m_EditorClassIdentifier: Assembly-CSharp::Patterns.Command.Customization.BodyMaterial.MaterialOption
-  _displayName: White Paint
-  _icon: {fileID: 0}
+  _displayName: Black Paint
+  _icon: {fileID: -2019387507, guid: 8b8d6691423f60c429fb5d3572c39742, type: 3}
   _material: {fileID: 2100000, guid: 71b43d8b9d5bf014eb835d3df2a29769, type: 2}

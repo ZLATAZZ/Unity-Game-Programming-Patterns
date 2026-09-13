@@ -8,11 +8,13 @@ namespace Patterns.Command.Customization.Core
     {
         [SerializeField] private CustomizationOption[] _availableOptions;
         [SerializeField] private CustomizationOption _initialOption;
+        [SerializeField] private string _displayName;
 
         private bool _isInitialized;
 
         public IReadOnlyList<CustomizationOption> AvailableOptions => _availableOptions;
         public CustomizationOption CurrentOption { get; private set; }
+        public string DisplayName => _displayName;
         public bool IsInitialized => _isInitialized;
 
         public void Initialize()

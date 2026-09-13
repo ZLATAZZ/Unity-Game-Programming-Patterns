@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e104b387fdf614d41b54192841d8dac2, type: 3}
   m_Name: VioletMaterialOption
   m_EditorClassIdentifier: Assembly-CSharp::Patterns.Command.Customization.BodyMaterial.MaterialOption
-  _displayName: White Paint
-  _icon: {fileID: 0}
+  _displayName: Violet Paint
+  _icon: {fileID: 421037184, guid: bc6da6bb736fbda4a99eef349593e7cb, type: 3}
   _material: {fileID: 2100000, guid: a6fe0ca99255729449610699a2289d23, type: 2}

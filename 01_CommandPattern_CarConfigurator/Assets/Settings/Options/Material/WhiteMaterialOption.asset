@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: WhiteMaterialOption
   m_EditorClassIdentifier: Assembly-CSharp::Patterns.Command.Customization.BodyMaterial.MaterialOption
   _displayName: White Paint
-  _icon: {fileID: 0}
+  _icon: {fileID: 279629518, guid: 49700f36c4c2eac40ad6d6203c44f0f3, type: 3}
   _material: {fileID: 2100000, guid: fa4b413bfec58cd41a5280fb62f9dc67, type: 2}

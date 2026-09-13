@@ -1,14 +1,15 @@
-using System;
 using Patterns.Command.Core;
 using Patterns.Command.Customization.Core;
+using Patterns.Command.UI;
+using System;
 using UnityEngine;
 
 namespace Patterns.Command.Game
 {
     public sealed class CarCustomizationBootstrapper : MonoBehaviour
     {
-        [SerializeField]
-        private CustomizationFeature[] _customizationFeatures;
+        [SerializeField] private CustomizationFeature[] _customizationFeatures;
+        [SerializeField] private CustomizationMenu _customizationMenu;
 
         public CustomizationController Controller { get; private set; }
 
@@ -22,6 +23,7 @@ namespace Patterns.Command.Game
         private void Start()
         {
             InitializeFeatures();
+            InitializeUI();
         }
 
         private void InitializeFeatures()
@@ -40,6 +42,16 @@ namespace Patterns.Command.Game
 
                 feature.Initialize();
             }
+        }
+
+        private void InitializeUI()
+        {
+            if (_customizationMenu == null)
+            {
+                throw new InvalidOperationException("No customization menu is configured.");
+            }
+
+            _customizationMenu.Initialize(Controller, _customizationFeatures);
         }
     }
 }
