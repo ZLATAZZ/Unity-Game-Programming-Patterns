@@ -10,6 +10,8 @@ namespace Patterns.Command.Customization.Core
         public bool CanUndo => _commandHistory.CanUndo;
         public bool CanRedo => _commandHistory.CanRedo;
 
+        public event Action HistoryChanged;
+
         public CustomizationController(CommandHistory commandHistory)
         {
             _commandHistory = commandHistory ?? throw new ArgumentNullException(nameof(commandHistory));
@@ -31,30 +33,56 @@ namespace Patterns.Command.Customization.Core
             {
                 throw new InvalidOperationException($"{feature.name} is not initialized.");
             }
-                
+
             if (!feature.IsOptionAvailable(option))
             {
                 throw new ArgumentException($"{option.name} is not available for {feature.name}.", nameof(option));
             }
-                
+
             if (feature.CurrentOption == option)
             {
                 return;
             }
 
-            var command = new ChangeCustomizationCommand(feature, option);
+            ICommand command = new ChangeCustomizationCommand(feature, option);
+
+            ExecuteCommand(command);
+        }
+
+        public void ExecuteCommand(ICommand command)
+        {
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
 
             _commandHistory.ExecuteCommand(command);
+
+            HistoryChanged?.Invoke();
         }
 
         public void Undo()
         {
+            if (!_commandHistory.CanUndo)
+            {
+                return;
+            }
+
             _commandHistory.UndoCommand();
+
+            HistoryChanged?.Invoke();
         }
 
         public void Redo()
         {
+            if (!_commandHistory.CanRedo)
+            {
+                return;
+            }
+
             _commandHistory.RedoCommand();
+
+            HistoryChanged?.Invoke();
         }
     }
 }

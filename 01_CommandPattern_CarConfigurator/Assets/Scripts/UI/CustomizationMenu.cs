@@ -41,6 +41,11 @@ namespace Patterns.Command.UI
         {
             _undoButton.onClick.RemoveListener(Undo);
             _redoButton.onClick.RemoveListener(Redo);
+
+            if (_controller != null)
+            {
+                _controller.HistoryChanged -= RefreshHistoryControls;
+            }
         }
 
         public void Initialize(CustomizationController controller, IReadOnlyList<CustomizationFeature> features)
@@ -51,6 +56,8 @@ namespace Patterns.Command.UI
             }
 
             _controller = controller ?? throw new ArgumentNullException(nameof(controller));
+            _controller.HistoryChanged += RefreshHistoryControls;
+
             _features = features ?? throw new ArgumentNullException(nameof(features));
 
             if (_features.Count == 0)
@@ -115,22 +122,17 @@ namespace Patterns.Command.UI
             }
 
             _controller.ChangeOption(_selectedFeature, option);
-
-            RefreshHistoryControls();
         }
 
         private void Undo()
         {
             _controller.Undo();
-
-            RefreshHistoryControls();
         }
 
         private void Redo()
         {
             _controller.Redo();
 
-            RefreshHistoryControls();
         }
 
         private void RefreshHistoryControls()
