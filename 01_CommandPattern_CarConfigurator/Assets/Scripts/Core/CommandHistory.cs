@@ -2,38 +2,42 @@ using System.Collections.Generic;
 
 namespace Patterns.Command.Core
 {
-    public class CommandHistory
+    public sealed class CommandHistory
     {
-        private readonly Stack<ICommand> undoStack = new();
-        private readonly Stack<ICommand> redoStack = new();
+        private readonly Stack<ICommand> _undoStack = new();
+        private readonly Stack<ICommand> _redoStack = new();
+
+        public bool CanUndo => _undoStack.Count > 0;
+        public bool CanRedo => _redoStack.Count > 0;
 
         public void ExecuteCommand(ICommand command)
         {
             command.Execute();
 
-            undoStack.Push(command);
-
-            redoStack.Clear();
+            _undoStack.Push(command);
+            _redoStack.Clear();
         }
 
         public void UndoCommand()
         {
-            if (undoStack.Count > 0)
+            if (!_undoStack.TryPop(out ICommand command))
             {
-                ICommand lastCommand = undoStack.Pop();
-                lastCommand.Undo();
-                redoStack.Push(lastCommand);
+                return;
             }
+
+            command.Undo();
+            _redoStack.Push(command);
         }
 
         public void RedoCommand()
         {
-            if (redoStack.Count > 0)
+            if (!_redoStack.TryPop(out ICommand command))
             {
-                ICommand lastCommand = redoStack.Pop();
-                lastCommand.Execute();
-                undoStack.Push(lastCommand);
+                return;
             }
+
+            command.Execute();
+            _undoStack.Push(command);
         }
     }
 }
