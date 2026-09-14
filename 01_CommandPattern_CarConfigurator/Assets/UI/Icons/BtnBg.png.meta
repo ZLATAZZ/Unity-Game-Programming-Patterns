@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7747defbe27caca45a70719ba791a0e3
+guid: a75e4c100f4d6fc4591aceb6729f363b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,12 +136,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: StockWheels_0
+      name: BtnBg_0
       rect:
         serializedVersion: 2
         x: 36
         y: 43
-        width: 426
+        width: 425
         height: 424
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -151,8 +151,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 041926dc194e6c248b96012f240a615c
-      internalID: 1378360483
+      spriteID: 46accc237e1e16b4a9a8bdd05108c2c9
+      internalID: 435662204
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 44b1b682e7ea7cc47a65ba2d6b8e94db
+    spriteID: f3bb8bb2990f7aa458cdfa92801b4fd5
     internalID: 0
     vertices: []
     indices: 
@@ -173,7 +173,7 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      StockWheels_0: 1378360483
+      BtnBg_0: 435662204
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

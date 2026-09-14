@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: StockWheelsVariantOption
   m_EditorClassIdentifier: Assembly-CSharp::Patterns.Command.Customization.Variants.VariantOption
   _displayName: Stock Wheels
-  _icon: {fileID: 516255508, guid: 4ba73fd501aea31479a12024bdc1959c, type: 3}
+  _icon: {fileID: 1378360483, guid: 7747defbe27caca45a70719ba791a0e3, type: 3}
   _prefab: {fileID: 5234970616168743852, guid: 5a945bae87b80b34a9a956cbe81dc61a, type: 3}
   _allowEmpty: 0

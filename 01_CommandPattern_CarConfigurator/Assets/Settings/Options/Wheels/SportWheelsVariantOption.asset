@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SportWheelsVariantOption
   m_EditorClassIdentifier: Assembly-CSharp::Patterns.Command.Customization.Variants.VariantOption
   _displayName: Sport Wheels
-  _icon: {fileID: -2014670646, guid: b0f31bd5dfd3cec47ad57d57af84f215, type: 3}
+  _icon: {fileID: 1994624915, guid: 5fb8ca285cf6e1e4a92aaee4f7f7b026, type: 3}
   _prefab: {fileID: 2040558147559656617, guid: 705910d3356008c4ea83238847568255, type: 3}
   _allowEmpty: 0

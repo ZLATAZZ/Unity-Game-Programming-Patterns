@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SportPackagePreset
   m_EditorClassIdentifier: Assembly-CSharp::Patterns.Command.Customization.Presets.CustomizationPreset
   _displayName: Sport Package
-  _icon: {fileID: -657508104, guid: a21be4ccd35e601408f0b91c25f53007, type: 3}
+  _icon: {fileID: 512883690, guid: 22084759153b09641b7a45e723cc1e48, type: 3}
   _options:
   - {fileID: 11400000, guid: b167adf23ae32644dafa722e97a5b402, type: 2}
   - {fileID: 11400000, guid: 58a58f237ea1bad45a8ba703c9123182, type: 2}

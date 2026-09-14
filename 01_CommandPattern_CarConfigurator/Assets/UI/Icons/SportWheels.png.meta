@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b0f31bd5dfd3cec47ad57d57af84f215
+guid: 5fb8ca285cf6e1e4a92aaee4f7f7b026
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -139,10 +139,10 @@ TextureImporter:
       name: SportWheels_0
       rect:
         serializedVersion: 2
-        x: 52
-        y: 52
-        width: 385
-        height: 396
+        x: 36
+        y: 43
+        width: 426
+        height: 424
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,8 +151,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 504a8aa3552729e4ba283d1a920714b4
-      internalID: -2014670646
+      spriteID: c1a2ee4bdd36966479addac117bff98c
+      internalID: 1994624915
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 79bf851521d292c46bb2eacf8a968f1d
+    spriteID: 11ec0032d3104a8408588f3fb105c4ab
     internalID: 0
     vertices: []
     indices: 
@@ -173,7 +173,7 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      SportWheels_0: -2014670646
+      SportWheels_0: 1994624915
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
