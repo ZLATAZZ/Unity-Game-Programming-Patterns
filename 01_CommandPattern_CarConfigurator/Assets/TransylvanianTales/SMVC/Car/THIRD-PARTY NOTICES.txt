@@ -1,0 +1,57 @@
+THIRD-PARTY NOTICES
+
+
+----------------------------------------
+Overview
+----------------------------------------
+
+This asset includes 3D car models generated using the "Modular Car Creation 
+Tool" by Dennis (also known as denniswoo1993 / SHC).
+
+
+----------------------------------------
+AUTHOR / SOURCE:
+----------------------------------------
+
+Name: Dennis (SHC)
+YouTube: https://www.youtube.com/@SHC
+Tool Source: https://www.cgtrader.com/3d-models/car/sport-car/modular-car-creation-tool
+
+
+----------------------------------------
+USAGE & PERMISSION:
+----------------------------------------
+
+The original author has granted explicit written permission to include models 
+generated with their tool as demo content within this asset.
+
+These models are provided as integrated examples to showcase the functionality 
+of the systems included in this package.
+
+
+----------------------------------------
+LICENSE & TERMS:
+----------------------------------------
+
+As part of this package, these models are licensed to you under the 
+Unity Asset Store Standard EULA.
+
+- NO ATTRIBUTION REQUIRED: You are NOT required to credit the original author 
+  of the car models when using them in your commercial or personal projects.
+  
+- MODIFICATIONS: The models have been modified (pivots, hierarchy, and 
+  optimization) to ensure compatibility with the systems in this asset.
+
+- RESTRICTIONS: In accordance with the Unity Asset Store EULA, you may use 
+  these models in your games and applications, but you may NOT redistribute 
+  the raw model files as standalone assets or part of a competing asset pack.
+
+  
+----------------------------------------
+ADDITIONAL NOTES:
+----------------------------------------
+
+These models represent only a fraction of what can be created with the 
+original tool. If you wish to create your own custom vehicles, please 
+consider supporting the original creator by visiting the links provided 
+in the Author section.

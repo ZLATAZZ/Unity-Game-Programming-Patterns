@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5c3a014408c6bea44bccf0c772331f63
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 359840
+  packageName: Simple Modular Vehicle Controller (SMVC)
+  packageVersion: 1.0.0
+  assetPath: Assets/TransylvanianTales/SMVC/Car/RenderPipelines/BRP/Materials/BrakeDisk.mat
+  uploadId: 891574

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3eed2459341b7b141a99ceb73ce86a18
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 359840
+  packageName: Simple Modular Vehicle Controller (SMVC)
+  packageVersion: 1.0.0
+  assetPath: Assets/TransylvanianTales/SMVC/Car/RenderPipelines/BRP/Materials/LedLight.mat
+  uploadId: 891574

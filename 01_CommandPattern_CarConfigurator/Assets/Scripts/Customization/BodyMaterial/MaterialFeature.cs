@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Patterns.Command.Customization.Core;
 using UnityEngine;
 
@@ -6,15 +7,17 @@ namespace Patterns.Command.Customization.BodyMaterial
 {
     public sealed class MaterialFeature : CustomizationFeature
     {
-        [SerializeField] private Renderer _targetRenderer;
+        [Header("Runtime Targets")]
+        [SerializeField] private MaterialSlotTarget[] _targets;
+
+        [Header("Editor Target Collection")]
+        [SerializeField] private Transform _collectionRoot;
+        [SerializeField] private Material _sourceMaterial;
+
+        private readonly Dictionary<Renderer, Material[]> _materialsByRenderer = new();
 
         protected override void ApplyOptionInternal(CustomizationOption option)
         {
-            if (_targetRenderer == null)
-            {
-                throw new InvalidOperationException($"{name} has no target renderer.");
-            }
-
             if (option is not MaterialOption materialOption)
             {
                 throw new InvalidOperationException($"Option {option.name} is not a MaterialOption.");
@@ -25,23 +28,59 @@ namespace Patterns.Command.Customization.BodyMaterial
                 throw new InvalidOperationException($"Material option {materialOption.name} has no material assigned.");
             }
 
-            _targetRenderer.sharedMaterial = materialOption.Material;
+            ValidateTargets();
+            ApplyMaterial(materialOption.Material);
         }
 
-        protected override void OnValidate()
+        private void ApplyMaterial(Material material)
         {
-            base.OnValidate();
+            _materialsByRenderer.Clear();
 
-            if (_targetRenderer == null)
+            foreach (MaterialSlotTarget target in _targets)
             {
-                Debug.LogWarning($"{name} has no target renderer.", this);
+                Renderer renderer = target.Renderer;
+
+                if (!_materialsByRenderer.TryGetValue(renderer, out Material[] materials))
+                {
+                    materials = renderer.sharedMaterials;
+                    _materialsByRenderer.Add(renderer, materials);
+                }
+
+                materials[target.MaterialIndex] = material;
             }
 
-            foreach (CustomizationOption option in AvailableOptions)
+            foreach (KeyValuePair<Renderer, Material[]> entry in _materialsByRenderer)
             {
-                if (option != null && option is not MaterialOption)
+                entry.Key.sharedMaterials = entry.Value;
+            }
+        }
+
+        private void ValidateTargets()
+        {
+            if (_targets == null || _targets.Length == 0)
+            {
+                throw new InvalidOperationException($"{name} has no material slot targets.");
+            }
+
+            foreach (MaterialSlotTarget target in _targets)
+            {
+                if (target == null)
                 {
-                    Debug.LogWarning($"Option {option.name} assigned to {name} is not a MaterialOption.", this);
+                    throw new InvalidOperationException($"{name} contains a null material slot target.");
+                }
+
+                if (target.Renderer == null)
+                {
+                    throw new InvalidOperationException($"{name} contains a material slot target without a renderer.");
+                }
+
+                int materialCount = target.Renderer.sharedMaterials.Length;
+
+                if (target.MaterialIndex < 0 || target.MaterialIndex >= materialCount)
+                {
+                    throw new InvalidOperationException(
+                        $"Material index {target.MaterialIndex} is invalid for renderer {target.Renderer.name}. " +
+                        $"The renderer contains {materialCount} material slots.");
                 }
             }
         }
