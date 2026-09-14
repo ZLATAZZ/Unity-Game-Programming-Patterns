@@ -166,6 +166,7 @@ MonoBehaviour:
   _customizationFeatures:
   - {fileID: 219226401}
   - {fileID: 1066373081}
+  - {fileID: 714291389}
   _customizationPresets:
   - {fileID: 11400000, guid: b18e97548e1c59f48906aeea5422bb86, type: 2}
   _customizationMenu: {fileID: 1106898188}
@@ -671,6 +672,7 @@ Transform:
   m_Children:
   - {fileID: 1790445346}
   - {fileID: 1210863309}
+  - {fileID: 1239363465}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &441175551
@@ -916,6 +918,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 714291388}
+  - component: {fileID: 714291389}
   m_Layer: 0
   m_Name: SpoilerFeature
   m_TagString: Untagged
@@ -938,6 +941,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1790445346}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &714291389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714291387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3857bf8a76e09c14a8c5541c5525f174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Patterns.Command.Customization.Variants.VariantFeature
+  _availableOptions:
+  - {fileID: 11400000, guid: eb1a1fc10b6f6b440912c0305e41a55b, type: 2}
+  - {fileID: 11400000, guid: 4b997c68ff1b232448434d9f0f4d635d, type: 2}
+  _initialOption: {fileID: 11400000, guid: eb1a1fc10b6f6b440912c0305e41a55b, type: 2}
+  _displayName: Spoiler
+  _variantRoot: {fileID: 1239363465}
 --- !u!23 &782054577 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2674773027625126065, guid: 95c2abb0befbeeb4e91f5d4d61140b70, type: 3}
@@ -1672,7 +1693,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 58a58f237ea1bad45a8ba703c9123182, type: 2}
   _initialOption: {fileID: 11400000, guid: 5b515b327a2999648813b38e4a279b7b, type: 2}
   _displayName: Wheels
-  _variantRoot: {fileID: 348430643}
+  _variantRoot: {fileID: 1210863309}
 --- !u!1 &1106898186
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,7 +2072,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -8569051603316948255, guid: 95c2abb0befbeeb4e91f5d4d61140b70, type: 3}
+    - {fileID: -4735231743919120150, guid: 95c2abb0befbeeb4e91f5d4d61140b70, type: 3}
+    - {fileID: 1593898744906171994, guid: 95c2abb0befbeeb4e91f5d4d61140b70, type: 3}
+    - {fileID: -8097750293220496736, guid: 95c2abb0befbeeb4e91f5d4d61140b70, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95c2abb0befbeeb4e91f5d4d61140b70, type: 3}
@@ -2060,6 +2085,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 95c2abb0befbeeb4e91f5d4d61140b70, type: 3}
   m_PrefabInstance: {fileID: 1210863308}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1239363464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1239363465}
+  m_Layer: 0
+  m_Name: SpoilerRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1239363465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239363464}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.80917627, z: -0, w: 0.58756596}
+  m_LocalPosition: {x: -5.16, y: 1.95, z: 1.56}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 348430643}
+  m_LocalEulerAnglesHint: {x: 0, y: 108.031, z: 0}
 --- !u!23 &1478686653 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 3082577412261465503, guid: 95c2abb0befbeeb4e91f5d4d61140b70, type: 3}
@@ -2548,8 +2604,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 330585546}
   - {fileID: 832575519}
+  - {fileID: 941207490}
   - {fileID: 348430643}
   - {fileID: 669627304}
   - {fileID: 2093631897}
   - {fileID: 1807772384}
-  - {fileID: 941207490}
