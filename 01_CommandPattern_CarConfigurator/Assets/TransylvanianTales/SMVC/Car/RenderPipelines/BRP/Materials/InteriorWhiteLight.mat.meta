@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1b4258f4229ff8f4f8325957d3cc21da
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 359840
+  packageName: Simple Modular Vehicle Controller (SMVC)
+  packageVersion: 1.0.0
+  assetPath: Assets/TransylvanianTales/SMVC/Car/RenderPipelines/BRP/Materials/InteriorWhiteLight.mat
+  uploadId: 891574

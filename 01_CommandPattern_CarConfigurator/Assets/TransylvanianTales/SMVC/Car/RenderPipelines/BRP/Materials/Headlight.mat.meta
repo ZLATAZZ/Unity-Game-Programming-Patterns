@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4cada8e10dc0042439ce720df9e9f02f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 359840
+  packageName: Simple Modular Vehicle Controller (SMVC)
+  packageVersion: 1.0.0
+  assetPath: Assets/TransylvanianTales/SMVC/Car/RenderPipelines/BRP/Materials/Headlight.mat
+  uploadId: 891574

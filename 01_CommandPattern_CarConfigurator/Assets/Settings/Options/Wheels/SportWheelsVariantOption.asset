@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7478d05b62d031241bb3846a16ebb5f4, type: 3}
+  m_Name: SportWheelsVariantOption
+  m_EditorClassIdentifier: Assembly-CSharp::Patterns.Command.Customization.Variants.VariantOption
+  _displayName: Sport Wheels
+  _icon: {fileID: 1994624915, guid: 5fb8ca285cf6e1e4a92aaee4f7f7b026, type: 3}
+  _prefab: {fileID: 2040558147559656617, guid: 705910d3356008c4ea83238847568255, type: 3}
+  _allowEmpty: 0
