@@ -14,6 +14,8 @@ namespace Patterns.Flyweight.Player
         public int CurrentEnergy => _currentEnergy;
         public int CurrentBlockAmount => _currentBlockAmount;
 
+        public int HandCapacity => Definition.HandCapacity;
+
         public bool IsDead => _currentHealth <= 0;
 
         public PlayerState(PlayerDefinition definition)

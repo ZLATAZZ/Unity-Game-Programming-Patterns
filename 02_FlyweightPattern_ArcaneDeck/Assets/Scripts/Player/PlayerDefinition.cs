@@ -9,10 +9,12 @@ namespace Patterns.Flyweight.Player
         [SerializeField] private Sprite _profileImage;
         [SerializeField] private int _maxHealth;
         [SerializeField] private int _maxEnergy;
+        [SerializeField] private int _handCapacity;
 
         public string PlayerName => _playerName;
         public Sprite ProfileImage => _profileImage;
         public int MaxHealth => _maxHealth;
         public int MaxEnergy => _maxEnergy;
+        public int HandCapacity => _handCapacity;
     }
 }

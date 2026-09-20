@@ -9,7 +9,6 @@ namespace Patterns.Flyweight.Battle
         private readonly DeckState _deckState;
         private readonly BattleContext _battleContext;
         private readonly Random _random;
-        private readonly int _handSize;
 
         private BattlePhase _currentPhase;
 
@@ -21,23 +20,11 @@ namespace Patterns.Flyweight.Battle
         public event Action<BattlePhase> PhaseChanged;
         public event Action StateChanged;
 
-        public BattleController(DeckState deckState, BattleContext battleContext, Random random, int handSize)
+        public BattleController(DeckState deckState, BattleContext battleContext, Random random)
         {
             _deckState = deckState ?? throw new ArgumentNullException(nameof(deckState));
             _battleContext = battleContext ?? throw new ArgumentNullException(nameof(battleContext));
             _random = random ?? throw new ArgumentNullException(nameof(random));
-
-            if (handSize <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(handSize));
-            }
-
-            if (handSize > _deckState.DrawPile.Count)
-            {
-                throw new ArgumentException("Hand size cannot be greater than the number of cards in the deck.", nameof(handSize));
-            }
-
-            _handSize = handSize;
             _currentPhase = BattlePhase.NotStarted;
         }
 
@@ -134,7 +121,7 @@ namespace Patterns.Flyweight.Battle
 
         private void DrawUntilHandIsFull()
         {
-            while (_deckState.Hand.Count < _handSize)
+            while (_deckState.Hand.Count < _battleContext.Player.HandCapacity)
             {
                 CardInstance drawnCard = _deckState.DrawCard();
                 CardDrawn?.Invoke(drawnCard);
