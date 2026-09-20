@@ -1,10 +1,10 @@
 using UnityEngine;
+using Patterns.Flyweight.Battle;
 
 namespace Patterns.Flyweight.Cards
-{
-    [CreateAssetMenu(fileName = "New Card Effect", menuName = "Patterns/Flyweight/Card Effect")]
+{ 
     public abstract class CardEffect : ScriptableObject
     {
-       
+       public abstract void Apply(BattleContext context, int amount);
     }
 }
