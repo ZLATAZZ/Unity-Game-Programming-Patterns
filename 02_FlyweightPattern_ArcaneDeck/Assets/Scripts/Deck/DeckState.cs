@@ -79,6 +79,16 @@ namespace Patterns.Flyweight.Deck
             _hand.Clear();
         }
 
+        public bool IsInHand(CardInstance card)
+        {
+            if (card == null)
+            {
+                return false;
+            }
+
+            return _hand.Contains(card);
+        }
+
         private void ReshuffleDiscardPile()
         {
             _drawPile.AddRange(_discardPile);
