@@ -44,7 +44,6 @@ namespace Patterns.Flyweight.UI
 
             _artwork.sprite = definition.Artwork;
             _nameText.text = definition.DisplayName;
-            _descriptionText.text = definition.Description;
 
             _effectText.text = $"{definition.CardEffect.DisplayName}: {card.EffectiveValue}";
 

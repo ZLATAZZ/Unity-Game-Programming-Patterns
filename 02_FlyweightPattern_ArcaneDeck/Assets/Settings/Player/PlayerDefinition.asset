@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f402df205e63204990a559d9ed824df, type: 3}
   m_Name: PlayerDefinition
   m_EditorClassIdentifier: Assembly-CSharp::Patterns.Flyweight.Player.PlayerDefinition
-  _playerName: 
-  _profileImage: {fileID: 0}
+  _playerName: Witch
+  _profileImage: {fileID: -310898394, guid: e34ce57a605f4f94b94e097ff7a2df81, type: 3}
   _maxHealth: 40
   _maxEnergy: 3
   _handCapacity: 5

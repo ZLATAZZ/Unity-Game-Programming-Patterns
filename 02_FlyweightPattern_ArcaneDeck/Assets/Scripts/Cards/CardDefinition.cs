@@ -8,7 +8,6 @@ namespace Patterns.Flyweight.Cards
         [SerializeField] private CardId _cardId;
         [SerializeField] private CardEffect _cardEffect;
         [SerializeField] private string _displayName;
-        [SerializeField] private string _description;
         [SerializeField] private int _baseEffectValue;
         [SerializeField] private int _energyCost;
         [SerializeField] private int _upgradeValue;
@@ -18,7 +17,6 @@ namespace Patterns.Flyweight.Cards
         public CardId CardId => _cardId;
         public CardEffect CardEffect => _cardEffect;
         public string DisplayName => _displayName;
-        public string Description => _description;
         public int BaseEffectValue => _baseEffectValue;
         public int EnergyCost => _energyCost;
         public int UpgradeValue => _upgradeValue;

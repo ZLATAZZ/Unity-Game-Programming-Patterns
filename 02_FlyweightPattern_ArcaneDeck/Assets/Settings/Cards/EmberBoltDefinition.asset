@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Patterns.Flyweight.Cards.CardDefinition
   _cardId: 0
   _cardEffect: {fileID: 11400000, guid: 9820dbd7ce0bdc542b22e6e26f90fe2f, type: 2}
-  _displayName: 
+  _displayName: Ember Bolt
   _description: 
   _baseEffectValue: 7
   _energyCost: 1
   _upgradeValue: 2
   _maxUpgradeLevel: 3
-  _artwork: {fileID: 0}
+  _artwork: {fileID: -765315994, guid: 1811a7ef4c7698a45a9f8ba2e01bbe9c, type: 3}

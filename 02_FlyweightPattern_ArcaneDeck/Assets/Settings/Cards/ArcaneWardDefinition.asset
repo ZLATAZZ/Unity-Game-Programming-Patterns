@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Patterns.Flyweight.Cards.CardDefinition
   _cardId: 2
   _cardEffect: {fileID: 11400000, guid: 7e28b680bb813d74fa615c19c3b0b751, type: 2}
-  _displayName: 
+  _displayName: Arcane Ward
   _description: 
   _baseEffectValue: 6
   _energyCost: 1
   _upgradeValue: 2
   _maxUpgradeLevel: 4
-  _artwork: {fileID: 0}
+  _artwork: {fileID: -159446151, guid: 1811a7ef4c7698a45a9f8ba2e01bbe9c, type: 3}

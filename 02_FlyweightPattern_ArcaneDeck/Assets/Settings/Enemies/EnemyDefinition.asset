@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c3ff0cb9ea579c44959898f8f4bccc1, type: 3}
   m_Name: EnemyDefinition
   m_EditorClassIdentifier: Assembly-CSharp::Patterns.Flyweight.Enemy.EnemyDefinition
-  _enemyName: 
-  _artwork: {fileID: 0}
+  _enemyName: Wizard
+  _artwork: {fileID: -1591189921, guid: 47b66675346a6a44c879c64c30b6fa21, type: 3}
   _maxHealth: 80
   _minAttackDamage: 6
   _maxAttackDamage: 10
