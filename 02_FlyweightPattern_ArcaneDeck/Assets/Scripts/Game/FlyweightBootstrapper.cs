@@ -1,10 +1,11 @@
-using System;
-using System.Collections.Generic;
 using Patterns.Flyweight.Battle;
 using Patterns.Flyweight.Cards;
 using Patterns.Flyweight.Deck;
 using Patterns.Flyweight.Enemy;
 using Patterns.Flyweight.Player;
+using Patterns.Flyweight.UI;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Patterns.Flyweight.Game
@@ -16,6 +17,8 @@ namespace Patterns.Flyweight.Game
 
         [SerializeField] private PlayerDefinition _playerDefinition;
         [SerializeField] private EnemyDefinition _enemyDefinition;
+
+        [SerializeField] private BattleScreenPresenter _battleScreenPresenter;
 
 
         private BattleController _battleController;
@@ -42,6 +45,12 @@ namespace Patterns.Flyweight.Game
             _deckState = new DeckState(cards, random);
 
             _battleController = new BattleController(_deckState, _battleContext, random);
+
+            _battleController.StartBattle();
+
+            _battleController = new BattleController(_deckState, _battleContext, random);
+
+            _battleScreenPresenter.Initialize(_battleController, _battleContext, _deckState);
 
             _battleController.StartBattle();
         }

@@ -35,6 +35,8 @@ namespace Patterns.Flyweight.Deck
             _drawPile = new List<CardInstance>(initialDrawPile);
             _hand = new List<CardInstance>();
             _discardPile = new List<CardInstance>();
+
+            ShuffleDrawPile();
         }
 
         public CardInstance DrawCard()
@@ -94,6 +96,11 @@ namespace Patterns.Flyweight.Deck
             _drawPile.AddRange(_discardPile);
             _discardPile.Clear();
 
+            ShuffleDrawPile();
+        }
+
+        private void ShuffleDrawPile()
+        {
             for (int i = _drawPile.Count - 1; i > 0; i--)
             {
                 int j = _random.Next(0, i + 1);

@@ -5,6 +5,10 @@ namespace Patterns.Flyweight.Cards
 { 
     public abstract class CardEffect : ScriptableObject
     {
-       public abstract void Apply(BattleContext context, int amount);
+        [SerializeField] private CardEffectType _displayName;
+
+        public string DisplayName => _displayName.ToString();
+
+        public abstract void Apply(BattleContext context, int amount);
     }
 }
