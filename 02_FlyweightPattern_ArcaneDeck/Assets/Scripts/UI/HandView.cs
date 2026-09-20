@@ -10,63 +10,116 @@ namespace Patterns.Flyweight.UI
         [SerializeField] private Transform _cardsRoot;
         [SerializeField] private CardView _cardPrefab;
 
-        private readonly List<CardView> _cardViews = new();
+        private readonly Dictionary<CardInstance, CardView> _activeViews = new();
+        private readonly Stack<CardView> _pooledViews = new();
+
+        private readonly List<CardInstance> _releaseBuffer = new();
+        private readonly HashSet<CardInstance> _handBuffer = new();
 
         public event Action<CardInstance> CardSelected;
 
         public void Render(IReadOnlyList<CardInstance> cards, CardInstance selectedCard)
         {
-            Clear();
+            SynchronizeActiveViews(cards);
 
             for (int i = 0; i < cards.Count; i++)
             {
                 CardInstance card = cards[i];
 
-                CardView view = Instantiate(_cardPrefab, _cardsRoot);
+                if (_activeViews.TryGetValue(card, out CardView existingView))
+                {
+                    existingView.Refresh();
+                    existingView.transform.SetSiblingIndex(i);
+                    existingView.SetSelected(ReferenceEquals(card, selectedCard));
 
-                view.Initialize(card, HandleCardSelected, i);
+                    continue;
+                }
 
-                view.SetSelected(ReferenceEquals(card, selectedCard));
+                CardView newView = GetView();
 
-                _cardViews.Add(view);
+                newView.transform.SetSiblingIndex(i);
+                newView.Bind(card, HandleCardSelected, i);
+
+                if (ReferenceEquals(card, selectedCard))
+                {
+                    newView.SetSelected(true);
+                }
+
+                _activeViews.Add(card, newView);
             }
         }
 
         public void SetSelected(CardInstance selectedCard)
         {
-            foreach (CardView view in _cardViews)
+            foreach (KeyValuePair<CardInstance, CardView> pair in _activeViews)
             {
-                view.SetSelected(ReferenceEquals(view.Card, selectedCard));
+                pair.Value.SetSelected(
+                    ReferenceEquals(pair.Key, selectedCard));
             }
         }
 
         public void SetInteractable(bool interactable)
         {
-            foreach (CardView view in _cardViews)
+            foreach (CardView view in _activeViews.Values)
             {
                 view.SetInteractable(interactable);
             }
         }
 
+        private void SynchronizeActiveViews(IReadOnlyList<CardInstance> cards)
+        {
+            _handBuffer.Clear();
+
+            foreach (CardInstance card in cards)
+            {
+                _handBuffer.Add(card);
+            }
+
+            _releaseBuffer.Clear();
+
+            foreach (CardInstance activeCard in _activeViews.Keys)
+            {
+                if (!_handBuffer.Contains(activeCard))
+                {
+                    _releaseBuffer.Add(activeCard);
+                }
+            }
+
+            foreach (CardInstance card in _releaseBuffer)
+            {
+                ReleaseView(card);
+            }
+        }
+
+        private CardView GetView()
+        {
+            if (_pooledViews.Count > 0)
+            {
+                CardView pooledView = _pooledViews.Pop();
+                pooledView.gameObject.SetActive(true);
+
+                return pooledView;
+            }
+
+            return Instantiate(_cardPrefab, _cardsRoot);
+        }
+
+        private void ReleaseView(CardInstance card)
+        {
+            if (!_activeViews.Remove(card, out CardView view))
+            {
+                return;
+            }
+
+            view.Unbind();
+            view.gameObject.SetActive(false);
+
+            _pooledViews.Push(view);
+        }
+
         private void HandleCardSelected(CardInstance card)
         {
             CardSelected?.Invoke(card);
-        }
-
-        private void Clear()
-        {
-            foreach (CardView view in _cardViews)
-            {
-                if (view == null)
-                {
-                    continue;
-                }
-
-                view.gameObject.SetActive(false);
-                Destroy(view.gameObject);
-            }
-
-            _cardViews.Clear();
         }
     }
 }

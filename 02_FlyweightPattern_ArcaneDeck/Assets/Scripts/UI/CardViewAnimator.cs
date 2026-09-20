@@ -13,6 +13,10 @@ namespace Patterns.Flyweight.UI
         private RectTransform _rectTransform;
         private CanvasGroup _canvasGroup;
 
+        private Tween _fadeTween;
+        private Tween _scaleTween;
+        private Tween _feedbackTween;
+
         private bool _isSelected;
 
         private void Awake()
@@ -25,25 +29,35 @@ namespace Patterns.Flyweight.UI
         {
             KillTweens();
 
+            _isSelected = false;
+
             _canvasGroup.alpha = 0f;
             _rectTransform.localScale = Vector3.one * 0.9f;
+            _rectTransform.localRotation = Quaternion.identity;
 
-            Sequence sequence = DOTween.Sequence();
+            float delay = index * _staggerDelay;
 
-            sequence.SetDelay(index * _staggerDelay);
-            sequence.Join(_canvasGroup.DOFade(1f, _appearDuration));
-            sequence.Join(_rectTransform.DOScale(1f, _appearDuration).SetEase(Ease.OutBack));
+            _fadeTween = _canvasGroup
+                .DOFade(1f, _appearDuration)
+                .SetDelay(delay);
+
+            _scaleTween = _rectTransform
+                .DOScale(1f, _appearDuration)
+                .SetDelay(delay)
+                .SetEase(Ease.OutBack);
         }
 
         public void SetSelected(bool isSelected)
         {
             _isSelected = isSelected;
 
-            _rectTransform.DOKill();
+            _scaleTween?.Kill();
 
             float targetScale = _isSelected ? 1.07f : 1f;
 
-            _rectTransform.DOScale(targetScale, _selectionDuration).SetEase(Ease.OutQuad);
+            _scaleTween = _rectTransform
+                .DOScale(targetScale, _selectionDuration)
+                .SetEase(Ease.OutQuad);
         }
 
         public void SetHovered(bool isHovered)
@@ -53,24 +67,53 @@ namespace Patterns.Flyweight.UI
                 return;
             }
 
-            _rectTransform.DOKill();
+            _scaleTween?.Kill();
 
             float targetScale = isHovered ? 1.035f : 1f;
 
-            _rectTransform.DOScale(targetScale, _selectionDuration).SetEase(Ease.OutQuad);
+            _scaleTween = _rectTransform
+                .DOScale(targetScale, _selectionDuration)
+                .SetEase(Ease.OutQuad);
         }
 
         public void PlayRejected()
         {
-            _rectTransform.DOKill();
+            _feedbackTween?.Kill();
 
-            _rectTransform.DOPunchPosition(new Vector2(12f, 0f), 0.25f, 8, 0.5f);
+            _feedbackTween = _rectTransform
+                .DOShakeRotation(
+                    0.25f,
+                    new Vector3(0f, 0f, 8f),
+                    10,
+                    90f,
+                    false);
+        }
+
+        public void ResetImmediate()
+        {
+            KillTweens();
+
+            _isSelected = false;
+
+            _canvasGroup.alpha = 1f;
+            _rectTransform.localScale = Vector3.one;
+            _rectTransform.localRotation = Quaternion.identity;
         }
 
         private void KillTweens()
         {
-            _rectTransform.DOKill();
-            _canvasGroup.DOKill();
+            _fadeTween?.Kill();
+            _scaleTween?.Kill();
+            _feedbackTween?.Kill();
+
+            _fadeTween = null;
+            _scaleTween = null;
+            _feedbackTween = null;
+        }
+
+        private void OnDisable()
+        {
+            KillTweens();
         }
 
         private void OnDestroy()
