@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0639f348f132b843a22eaf454171537, type: 3}
+  m_Name: EmberBoltDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::Patterns.Flyweight.Cards.CardDefinition
+  _cardId: 0
+  _cardEffect: {fileID: 11400000, guid: 9820dbd7ce0bdc542b22e6e26f90fe2f, type: 2}
+  _displayName: Ember Bolt
+  _description: 
+  _baseEffectValue: 7
+  _energyCost: 1
+  _upgradeValue: 2
+  _maxUpgradeLevel: 3
+  _artwork: {fileID: -765315994, guid: 1811a7ef4c7698a45a9f8ba2e01bbe9c, type: 3}
