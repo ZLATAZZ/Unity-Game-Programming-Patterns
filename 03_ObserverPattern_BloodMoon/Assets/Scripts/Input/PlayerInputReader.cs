@@ -12,6 +12,7 @@ namespace BloodMoon.Input
         private bool _isDisposed;
 
         public Vector2 MoveInput => _inputActions.Player.Move.ReadValue<Vector2>();
+        public Vector2 AimPosition => _inputActions.Player.Aim.ReadValue<Vector2>();
 
         public event Action InteractPressed;
         public event Action AttackPressed;

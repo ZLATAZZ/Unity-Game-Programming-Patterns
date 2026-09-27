@@ -9,8 +9,12 @@ namespace BloodMoon.Composition
 {
     public sealed class GameBootstrapper : MonoBehaviour
     {
+        [Header("Scene")]
+        [SerializeField] private Camera _mainCamera;
+
         [Header("Player")]
         [SerializeField] private PlayerMovement _playerMovement;
+        [SerializeField] private PlayerAim _playerAim;
 
         [Header("Gameplay Systems")]
         [SerializeField] private MoonAltar _moonAltar;
@@ -51,6 +55,7 @@ namespace BloodMoon.Composition
         private void InitializeSystems()
         {
             _playerMovement.Initialize(_inputReader);
+            _playerAim.Initialize(_inputReader, _mainCamera);
             _moonAltar.Initialize(_bloodMoonSystem, _inputReader);
         }
 
@@ -66,9 +71,19 @@ namespace BloodMoon.Composition
 
         private void ValidateConfiguration()
         {
+            if (_mainCamera == null)
+            {
+                throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a Camera reference.");
+            }
+
             if (_playerMovement == null)
             {
                 throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a PlayerMovement reference.");
+            }
+
+            if (_playerAim == null)
+            {
+                throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a PlayerAim reference.");
             }
 
             if (_moonAltar == null)
