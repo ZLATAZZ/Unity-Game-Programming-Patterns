@@ -8,13 +8,13 @@ namespace BloodMoon.Enemies
 {
     public sealed class GhostSpawner : MonoBehaviour, IBloodMoonObserver, IDisposable
     {
-        [SerializeField] private Ghost _ghostPrefab;
+        [SerializeField] private Ghost[] _ghostPrefabs;
         [SerializeField] private Transform _poolContainer;
         [SerializeField] private Transform[] _spawnPoints;
 
-        private readonly List<Ghost> _activeGhosts = new();
+        private readonly List<PrefabPool<Ghost>> _ghostPools = new();
+        private readonly Dictionary<Ghost, PrefabPool<Ghost>> _activeGhosts = new();
 
-        private PrefabPool<Ghost> _ghostPool;
         private Transform _target;
 
         private bool _isInitialized;
@@ -35,8 +35,8 @@ namespace BloodMoon.Enemies
 
             _target = target != null ? target : throw new ArgumentNullException(nameof(target));
 
-            _ghostPool = new PrefabPool<Ghost>(_ghostPrefab, _poolContainer);
-            _ghostPool.Prewarm(_spawnPoints.Length);
+            CreatePools();
+            PrewarmPools();
 
             _isInitialized = true;
         }
@@ -68,12 +68,14 @@ namespace BloodMoon.Enemies
                 return;
             }
 
-            if (_ghostPool != null)
+            CleanupWave();
+
+            for (int i = 0; i < _ghostPools.Count; i++)
             {
-                CleanupWave();
-                _ghostPool.Dispose();
-                _ghostPool = null;
+                _ghostPools[i].Dispose();
             }
+
+            _ghostPools.Clear();
 
             _isDisposed = true;
         }
@@ -81,6 +83,34 @@ namespace BloodMoon.Enemies
         private void OnDestroy()
         {
             Dispose();
+        }
+
+        private void CreatePools()
+        {
+            for (int i = 0; i < _ghostPrefabs.Length; i++)
+            {
+                PrefabPool<Ghost> pool = new(_ghostPrefabs[i], _poolContainer);
+
+                _ghostPools.Add(pool);
+            }
+        }
+
+        private void PrewarmPools()
+        {
+            int baseCount = _spawnPoints.Length / _ghostPools.Count;
+            int remainder = _spawnPoints.Length % _ghostPools.Count;
+
+            for (int i = 0; i < _ghostPools.Count; i++)
+            {
+                int prewarmCount = baseCount;
+
+                if (i < remainder)
+                {
+                    prewarmCount++;
+                }
+
+                _ghostPools[i].Prewarm(prewarmCount);
+            }
         }
 
         private void SpawnWave()
@@ -93,43 +123,56 @@ namespace BloodMoon.Enemies
                 {
                     Transform spawnPoint = _spawnPoints[i];
 
-                    Ghost ghost = _ghostPool.Rent(spawnPoint.position, spawnPoint.rotation);
+                    PrefabPool<Ghost> pool = GetPoolForSpawnPoint(i);
+
+                    Ghost ghost = pool.Rent(
+                        spawnPoint.position,
+                        spawnPoint.rotation);
 
                     ghost.SetTarget(_target);
                     ghost.Died += HandleGhostDied;
 
-                    _activeGhosts.Add(ghost);
+                    _activeGhosts.Add(ghost, pool);
                 }
             }
             catch
             {
                 CleanupWave();
                 _isWaveActive = false;
+
                 throw;
             }
 
             WaveStarted?.Invoke(_activeGhosts.Count);
         }
 
+        private PrefabPool<Ghost> GetPoolForSpawnPoint(int spawnPointIndex)
+        {
+            int poolIndex = spawnPointIndex % _ghostPools.Count;
+
+            return _ghostPools[poolIndex];
+        }
+
         private void HandleGhostDied(Ghost ghost)
         {
-            if (!_activeGhosts.Remove(ghost))
+            if (!_activeGhosts.Remove(ghost, out PrefabPool<Ghost> pool))
             {
                 throw new InvalidOperationException($"{nameof(GhostSpawner)} received a death event from an untracked Ghost.");
             }
 
             ghost.Died -= HandleGhostDied;
 
-            _ghostPool.Return(ghost);
+            pool.Return(ghost);
 
             GhostDefeated?.Invoke();
         }
 
         private void CleanupWave()
         {
-            for (int i = _activeGhosts.Count - 1; i >= 0; i--)
+            foreach (KeyValuePair<Ghost, PrefabPool<Ghost>> pair in _activeGhosts)
             {
-                Ghost ghost = _activeGhosts[i];
+                Ghost ghost = pair.Key;
+                PrefabPool<Ghost> pool = pair.Value;
 
                 if (ghost == null)
                 {
@@ -137,7 +180,7 @@ namespace BloodMoon.Enemies
                 }
 
                 ghost.Died -= HandleGhostDied;
-                _ghostPool.Return(ghost);
+                pool.Return(ghost);
             }
 
             _activeGhosts.Clear();
@@ -158,9 +201,17 @@ namespace BloodMoon.Enemies
 
         private void ValidateConfiguration()
         {
-            if (_ghostPrefab == null)
+            if (_ghostPrefabs == null || _ghostPrefabs.Length == 0)
             {
-                throw new InvalidOperationException($"{nameof(GhostSpawner)} requires a Ghost prefab.");
+                throw new InvalidOperationException($"{nameof(GhostSpawner)} requires at least one Ghost prefab.");
+            }
+
+            for (int i = 0; i < _ghostPrefabs.Length; i++)
+            {
+                if (_ghostPrefabs[i] == null)
+                {
+                    throw new InvalidOperationException($"{nameof(GhostSpawner)} contains a null Ghost prefab at index {i}.");
+                }
             }
 
             if (_poolContainer == null)
