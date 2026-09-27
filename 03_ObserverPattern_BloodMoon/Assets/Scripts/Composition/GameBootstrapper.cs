@@ -1,8 +1,8 @@
 using System;
+using BloodMoon.Core;
+using BloodMoon.Gameplay;
 using BloodMoon.Input;
 using BloodMoon.Player;
-using BloodMoon.Gameplay;
-using BloodMoon.Core;
 using UnityEngine;
 
 namespace BloodMoon.Composition
@@ -27,7 +27,7 @@ namespace BloodMoon.Composition
             _bloodMoonSystem = new BloodMoonSystem();
 
             InitializeSystems();
-
+            RegisterObservers();
         }
 
         private void OnEnable()
@@ -42,6 +42,8 @@ namespace BloodMoon.Composition
 
         private void OnDestroy()
         {
+            UnregisterObservers();
+
             _inputReader?.Dispose();
             _inputReader = null;
         }
@@ -50,7 +52,16 @@ namespace BloodMoon.Composition
         {
             _playerMovement.Initialize(_inputReader);
             _moonAltar.Initialize(_bloodMoonSystem, _inputReader);
-            _arenaBarrier.Initialize(_bloodMoonSystem);
+        }
+
+        private void RegisterObservers()
+        {
+            _bloodMoonSystem.Subscribe(_arenaBarrier);
+        }
+
+        private void UnregisterObservers()
+        {
+            _bloodMoonSystem?.Unsubscribe(_arenaBarrier);
         }
 
         private void ValidateConfiguration()
