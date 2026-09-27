@@ -3,6 +3,7 @@ using BloodMoon.Enemies;
 using BloodMoon.Gameplay;
 using BloodMoon.Input;
 using BloodMoon.Player;
+using BloodMoon.Combat;
 using System;
 using UnityEngine;
 
@@ -20,6 +21,8 @@ namespace BloodMoon.Composition
         [Header("Gameplay Systems")]
         [SerializeField] private MoonAltar _moonAltar;
         [SerializeField] private ArenaBarrier _arenaBarrier;
+        [SerializeField] private PlayerMagic _playerMagic;
+        [SerializeField] private ProjectileSpawner _projectileSpawner;
 
         [Header("Enemies")]
         [SerializeField] private GhostSpawner _ghostSpawner;
@@ -71,18 +74,22 @@ namespace BloodMoon.Composition
             _moonAltar.Initialize(_bloodMoonSystem, _inputReader);
             _arenaBarrier.Initialize(_bloodMoonSystem.IsActive);
             _ghostSpawner.Initialize(_playerMovement.transform);
+            _playerMagic.Initialize(_inputReader, _projectileSpawner, _bloodMoonSystem.IsActive);
+            _projectileSpawner.Initialize();
         }
 
         private void RegisterObservers()
         {
             _bloodMoonSystem.Subscribe(_arenaBarrier);
             _bloodMoonSystem.Subscribe(_ghostSpawner);
+            _bloodMoonSystem.Subscribe(_playerMagic);
         }
 
         private void UnregisterObservers()
         {
             _bloodMoonSystem?.Unsubscribe(_arenaBarrier);
             _bloodMoonSystem?.Unsubscribe(_ghostSpawner);
+            _bloodMoonSystem?.Unsubscribe(_playerMagic);
         }
 
         private void ValidateConfiguration()
@@ -114,6 +121,14 @@ namespace BloodMoon.Composition
             if (_ghostSpawner == null)
             {
                 throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a GhostSpawner reference.");
+            }
+            if (_playerMagic == null)
+            {
+                throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a PlayerMagic reference.");
+            }
+            if (_projectileSpawner == null)
+            {
+                throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a ProjectileSpawner reference.");
             }
         }
     }
