@@ -32,7 +32,6 @@ namespace BloodMoon.Core
             }
 
             _observers.Add(observer);
-            observer.Synchronize(IsActive);
         }
 
         public void Unsubscribe(IBloodMoonObserver observer)
@@ -57,6 +56,7 @@ namespace BloodMoon.Core
             {
                 return false;
             }
+            EnsureTransitionIsNotReentrant();
 
             IsActive = true;
 
@@ -71,6 +71,8 @@ namespace BloodMoon.Core
             {
                 return false;
             }
+
+            EnsureTransitionIsNotReentrant();
 
             IsActive = false;
 
@@ -174,11 +176,18 @@ namespace BloodMoon.Core
                 if (!_observers.Contains(observer))
                 {
                     _observers.Add(observer);
-                    observer.Synchronize(IsActive);
                 }
             }
 
             _pendingSubscriptions.Clear();
+        }
+
+        private void EnsureTransitionIsNotReentrant()
+        {
+            if (_notificationDepth > 0)
+            {
+                throw new InvalidOperationException($"{nameof(BloodMoonSystem)} cannot change state while notifying observers.");
+            }
         }
     }
 }

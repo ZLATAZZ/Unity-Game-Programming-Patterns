@@ -57,6 +57,7 @@ namespace BloodMoon.Composition
             _playerMovement.Initialize(_inputReader);
             _playerAim.Initialize(_inputReader, _mainCamera);
             _moonAltar.Initialize(_bloodMoonSystem, _inputReader);
+            _arenaBarrier.Initialize(_bloodMoonSystem.IsActive);
         }
 
         private void RegisterObservers()

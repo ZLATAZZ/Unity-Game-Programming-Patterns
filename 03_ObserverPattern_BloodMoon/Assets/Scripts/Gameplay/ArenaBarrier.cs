@@ -8,7 +8,7 @@ namespace BloodMoon.Gameplay
     {
         [SerializeField] private ArenaBarrierView _view;
 
-        public void Synchronize(bool isBloodMoonActive)
+        public void Initialize(bool isBloodMoonActive)
         {
             if (isBloodMoonActive)
             {
