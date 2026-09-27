@@ -17,6 +17,8 @@ namespace BloodMoon.Gameplay
         private bool _isInitialized;
         private bool _isSubscribed;
 
+        public event Action<bool> InteractionAvailabilityChanged;
+
         public void Initialize(BloodMoonSystem bloodMoonSystem, PlayerInputReader playerInputReader)
         {
             if (_isInitialized)
@@ -65,18 +67,22 @@ namespace BloodMoon.Gameplay
                 return;
             }
 
-            if (other.GetComponentInParent<PlayerMarker>() != null)
+            if (other.GetComponentInParent<PlayerMarker>() == null)
             {
-                _canInteract = true;
+                return;
             }
+
+            SetInteractionAvailable(true);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.GetComponentInParent<PlayerMarker>() != null)
+            if (other.GetComponentInParent<PlayerMarker>() == null)
             {
-                _canInteract = false;
+                return;
             }
+
+            SetInteractionAvailable(false);
         }
 
         private void HandleInteractPressed()
@@ -90,8 +96,10 @@ namespace BloodMoon.Gameplay
             {
                 return;
             }
+
             _isConsumed = true;
-            _canInteract = false;
+
+            SetInteractionAvailable(false);
         }
 
         private void Subscribe()
@@ -114,6 +122,17 @@ namespace BloodMoon.Gameplay
 
             _playerInputReader.InteractPressed -= HandleInteractPressed;
             _isSubscribed = false;
+        }
+
+        private void SetInteractionAvailable(bool isAvailable)
+        {
+            if (_canInteract == isAvailable)
+            {
+                return;
+            }
+
+            _canInteract = isAvailable;
+            InteractionAvailabilityChanged?.Invoke(isAvailable);
         }
     }
 }

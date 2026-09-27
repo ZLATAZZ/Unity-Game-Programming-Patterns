@@ -1,10 +1,11 @@
-using System;
 using BloodMoon.Combat;
 using BloodMoon.Core;
 using BloodMoon.Enemies;
 using BloodMoon.Gameplay;
 using BloodMoon.Input;
 using BloodMoon.Player;
+using BloodMoon.UI;
+using System;
 using UnityEngine;
 
 namespace BloodMoon.Composition
@@ -27,6 +28,9 @@ namespace BloodMoon.Composition
 
         [Header("Combat")]
         [SerializeField] private ProjectileSpawner _projectileSpawner;
+
+        [Header("UI")]
+        [SerializeField] private AltarInteractionPrompt _altarInteractionPrompt;
 
         private PlayerInputReader _inputReader;
         private BloodMoonSystem _bloodMoonSystem;
@@ -82,6 +86,8 @@ namespace BloodMoon.Composition
             _arenaBarrier.Initialize(_bloodMoonSystem.IsActive);
             _playerMagic.Initialize(_inputReader, _projectileSpawner, _bloodMoonSystem.IsActive);
             _bloodMoonEnvironment.Initialize(_bloodMoonSystem.IsActive);
+
+            _altarInteractionPrompt.Initialize(_moonAltar, _inputReader);
         }
 
         private void RegisterObservers()

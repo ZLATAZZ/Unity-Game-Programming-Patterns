@@ -16,7 +16,7 @@ namespace BloodMoon.Input
 
         public event Action InteractPressed;
         public event Action AttackPressed;
-
+        public string InteractBindingDisplayName => _inputActions.Player.Interact.GetBindingDisplayString(group: "Keyboard&Mouse");
         public PlayerInputReader()
         {
             _inputActions = new BloodMoonInputActions();
