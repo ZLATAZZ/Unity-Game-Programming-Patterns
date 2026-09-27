@@ -1,8 +1,9 @@
-using System;
 using BloodMoon.Core;
+using BloodMoon.Enemies;
 using BloodMoon.Gameplay;
 using BloodMoon.Input;
 using BloodMoon.Player;
+using System;
 using UnityEngine;
 
 namespace BloodMoon.Composition
@@ -20,8 +21,12 @@ namespace BloodMoon.Composition
         [SerializeField] private MoonAltar _moonAltar;
         [SerializeField] private ArenaBarrier _arenaBarrier;
 
+        [Header("Enemies")]
+        [SerializeField] private GhostSpawner _ghostSpawner;
+
         private PlayerInputReader _inputReader;
         private BloodMoonSystem _bloodMoonSystem;
+        private BloodMoonEncounterController _encounterController;
 
         private void Awake()
         {
@@ -48,26 +53,36 @@ namespace BloodMoon.Composition
         {
             UnregisterObservers();
 
+            _encounterController?.Dispose();
+            _encounterController = null;
+
+            _ghostSpawner?.Dispose();
+
             _inputReader?.Dispose();
             _inputReader = null;
         }
 
         private void InitializeSystems()
         {
+            _encounterController = new BloodMoonEncounterController(_bloodMoonSystem, _ghostSpawner);
+
             _playerMovement.Initialize(_inputReader);
             _playerAim.Initialize(_inputReader, _mainCamera);
             _moonAltar.Initialize(_bloodMoonSystem, _inputReader);
             _arenaBarrier.Initialize(_bloodMoonSystem.IsActive);
+            _ghostSpawner.Initialize(_playerMovement.transform);
         }
 
         private void RegisterObservers()
         {
             _bloodMoonSystem.Subscribe(_arenaBarrier);
+            _bloodMoonSystem.Subscribe(_ghostSpawner);
         }
 
         private void UnregisterObservers()
         {
             _bloodMoonSystem?.Unsubscribe(_arenaBarrier);
+            _bloodMoonSystem?.Unsubscribe(_ghostSpawner);
         }
 
         private void ValidateConfiguration()
@@ -95,6 +110,10 @@ namespace BloodMoon.Composition
             if (_arenaBarrier == null)
             {
                 throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires an ArenaBarrier reference.");
+            }
+            if (_ghostSpawner == null)
+            {
+                throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a GhostSpawner reference.");
             }
         }
     }
