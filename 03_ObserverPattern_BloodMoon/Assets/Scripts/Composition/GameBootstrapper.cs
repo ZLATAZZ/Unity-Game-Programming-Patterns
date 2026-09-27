@@ -1,10 +1,10 @@
+using System;
+using BloodMoon.Combat;
 using BloodMoon.Core;
 using BloodMoon.Enemies;
 using BloodMoon.Gameplay;
 using BloodMoon.Input;
 using BloodMoon.Player;
-using BloodMoon.Combat;
-using System;
 using UnityEngine;
 
 namespace BloodMoon.Composition
@@ -17,15 +17,16 @@ namespace BloodMoon.Composition
         [Header("Player")]
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private PlayerAim _playerAim;
+        [SerializeField] private PlayerMagic _playerMagic;
 
-        [Header("Gameplay Systems")]
+        [Header("Gameplay")]
         [SerializeField] private MoonAltar _moonAltar;
         [SerializeField] private ArenaBarrier _arenaBarrier;
-        [SerializeField] private PlayerMagic _playerMagic;
-        [SerializeField] private ProjectileSpawner _projectileSpawner;
-
-        [Header("Enemies")]
         [SerializeField] private GhostSpawner _ghostSpawner;
+        [SerializeField] private BloodMoonEnvironment _bloodMoonEnvironment;
+
+        [Header("Combat")]
+        [SerializeField] private ProjectileSpawner _projectileSpawner;
 
         private PlayerInputReader _inputReader;
         private BloodMoonSystem _bloodMoonSystem;
@@ -39,6 +40,9 @@ namespace BloodMoon.Composition
             _bloodMoonSystem = new BloodMoonSystem();
 
             InitializeSystems();
+
+            _encounterController = new BloodMoonEncounterController(_bloodMoonSystem, _ghostSpawner);
+
             RegisterObservers();
         }
 
@@ -60,6 +64,7 @@ namespace BloodMoon.Composition
             _encounterController = null;
 
             _ghostSpawner?.Dispose();
+            _projectileSpawner?.Dispose();
 
             _inputReader?.Dispose();
             _inputReader = null;
@@ -67,15 +72,16 @@ namespace BloodMoon.Composition
 
         private void InitializeSystems()
         {
-            _encounterController = new BloodMoonEncounterController(_bloodMoonSystem, _ghostSpawner);
+            _projectileSpawner.Initialize();
+            _ghostSpawner.Initialize(_playerMovement.transform);
 
             _playerMovement.Initialize(_inputReader);
             _playerAim.Initialize(_inputReader, _mainCamera);
             _moonAltar.Initialize(_bloodMoonSystem, _inputReader);
+
             _arenaBarrier.Initialize(_bloodMoonSystem.IsActive);
-            _ghostSpawner.Initialize(_playerMovement.transform);
             _playerMagic.Initialize(_inputReader, _projectileSpawner, _bloodMoonSystem.IsActive);
-            _projectileSpawner.Initialize();
+            _bloodMoonEnvironment.Initialize(_bloodMoonSystem.IsActive);
         }
 
         private void RegisterObservers()
@@ -83,13 +89,20 @@ namespace BloodMoon.Composition
             _bloodMoonSystem.Subscribe(_arenaBarrier);
             _bloodMoonSystem.Subscribe(_ghostSpawner);
             _bloodMoonSystem.Subscribe(_playerMagic);
+            _bloodMoonSystem.Subscribe(_bloodMoonEnvironment);
         }
 
         private void UnregisterObservers()
         {
-            _bloodMoonSystem?.Unsubscribe(_arenaBarrier);
-            _bloodMoonSystem?.Unsubscribe(_ghostSpawner);
-            _bloodMoonSystem?.Unsubscribe(_playerMagic);
+            if (_bloodMoonSystem == null)
+            {
+                return;
+            }
+
+            _bloodMoonSystem.Unsubscribe(_arenaBarrier);
+            _bloodMoonSystem.Unsubscribe(_ghostSpawner);
+            _bloodMoonSystem.Unsubscribe(_playerMagic);
+            _bloodMoonSystem.Unsubscribe(_bloodMoonEnvironment);
         }
 
         private void ValidateConfiguration()
@@ -109,6 +122,11 @@ namespace BloodMoon.Composition
                 throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a PlayerAim reference.");
             }
 
+            if (_playerMagic == null)
+            {
+                throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a PlayerMagic reference.");
+            }
+
             if (_moonAltar == null)
             {
                 throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a MoonAltar reference.");
@@ -118,14 +136,17 @@ namespace BloodMoon.Composition
             {
                 throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires an ArenaBarrier reference.");
             }
+
             if (_ghostSpawner == null)
             {
                 throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a GhostSpawner reference.");
             }
-            if (_playerMagic == null)
+
+            if (_bloodMoonEnvironment == null)
             {
-                throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a PlayerMagic reference.");
+                throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a BloodMoonEnvironment reference.");
             }
+
             if (_projectileSpawner == null)
             {
                 throw new InvalidOperationException($"{nameof(GameBootstrapper)} requires a ProjectileSpawner reference.");
