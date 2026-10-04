@@ -1,0 +1,22 @@
+{
+    "name": "PrototypeForge.EditModeTests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:825f571e1bbc2aa44b5c875846b94cb8",
+        "GUID:92cec3d2d95d32a4f881aaf8d6413d6e"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false,
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}
