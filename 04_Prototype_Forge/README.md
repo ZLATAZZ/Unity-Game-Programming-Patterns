@@ -1,6 +1,6 @@
 # Prototype Pattern - Monster Forge
 
-https://github.com/user-attachments/assets/bd8f5292-c07a-4ca8-9b7c-d3ee877b4ede
+https://github.com/user-attachments/assets/c9925ef6-071c-4eff-9c34-dfa56cb5e36c
 
 A data-driven Unity project demonstrating the Prototype pattern by creating runtime monster configurations from existing configured prototypes.
 
