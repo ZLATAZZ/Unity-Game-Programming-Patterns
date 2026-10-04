@@ -13,6 +13,7 @@ namespace PrototypeForge.Unity.UI
 
         [SerializeField] private Button _cloneButton;
         [SerializeField] private Button _overchargeButton;
+        [SerializeField] private Button _clearButton;
 
         [SerializeField] private string _emptyPrototypeText = "Select a prototype";
         [SerializeField] private string _emptyCloneText = "No clone created";
@@ -21,6 +22,7 @@ namespace PrototypeForge.Unity.UI
 
         public event Action CloneRequested;
         public event Action OverchargeRequested;
+        public event Action ClearRequested;
 
         public void Initialize()
         {
@@ -39,6 +41,7 @@ namespace PrototypeForge.Unity.UI
 
             _cloneButton.onClick.AddListener(HandleCloneClicked);
             _overchargeButton.onClick.AddListener(HandleOverchargeClicked);
+            _clearButton.onClick.AddListener(HandleClearClicked);
 
             _isInitialized = true;
         }
@@ -57,6 +60,13 @@ namespace PrototypeForge.Unity.UI
 
             _cloneStatsLabel.text = FormatStats(clone);
             _overchargeButton.interactable = true;
+        }
+
+        public void SetCloneAvailable(bool isAvailable)
+        {
+            EnsureInitialized();
+
+            _cloneButton.interactable = isAvailable;
         }
 
         public void ClearClone()
@@ -87,6 +97,11 @@ namespace PrototypeForge.Unity.UI
             OverchargeRequested?.Invoke();
         }
 
+        private void HandleClearClicked()
+        {
+            ClearRequested?.Invoke();
+        }
+
         private void OnDestroy()
         {
             if (_cloneButton != null)
@@ -97,6 +112,10 @@ namespace PrototypeForge.Unity.UI
             if (_overchargeButton != null)
             {
                 _overchargeButton.onClick.RemoveListener(HandleOverchargeClicked);
+            }
+            if (_clearButton != null)
+            {
+                _clearButton.onClick.RemoveListener(HandleClearClicked);
             }
         }
 
@@ -128,6 +147,11 @@ namespace PrototypeForge.Unity.UI
             if (_overchargeButton == null)
             {
                 throw new InvalidOperationException($"{nameof(PrototypeComparisonView)} requires an Overcharge Button.");
+            }
+
+            if (_clearButton == null)
+            {
+                throw new InvalidOperationException($"{nameof(PrototypeComparisonView)} requires a Clear Button.");
             }
         }
     }

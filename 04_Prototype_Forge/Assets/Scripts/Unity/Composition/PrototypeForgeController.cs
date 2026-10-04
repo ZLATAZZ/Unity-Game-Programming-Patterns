@@ -65,6 +65,7 @@ namespace PrototypeForge.Unity.Composition
             _selectionView.PrototypeSelected += HandlePrototypeSelected;
             _comparisonView.CloneRequested += HandleCloneRequested;
             _comparisonView.OverchargeRequested += HandleOverchargeRequested;
+            _comparisonView.ClearRequested += HandleClearRequested;
 
             _selectionView.Initialize(
                 _registry.CreateAll(),
@@ -90,9 +91,15 @@ namespace PrototypeForge.Unity.Composition
                 throw new InvalidOperationException("Cannot create a clone before selecting a prototype.");
             }
 
-            _currentClone = _enemySpawner.Spawn(_selectedPrototypeId);
+            if (!_enemySpawner.TrySpawn(_selectedPrototypeId, out EnemyActor clone))
+            {
+                return;
+            }
+
+            _currentClone = clone;
 
             _comparisonView.SetActiveClone(_currentClone.Configuration);
+            _comparisonView.SetCloneAvailable(_enemySpawner.HasCapacity);
         }
 
         private void HandleOverchargeRequested()
@@ -107,6 +114,16 @@ namespace PrototypeForge.Unity.Composition
             _comparisonView.SetActiveClone(_currentClone.Configuration);
         }
 
+        private void HandleClearRequested()
+        {
+            _enemySpawner.ClearAll();
+
+            _currentClone = null;
+
+            _comparisonView.ClearClone();
+            _comparisonView.SetCloneAvailable(true);
+        }
+
         private void OnDestroy()
         {
             if (_selectionView != null)
@@ -118,6 +135,7 @@ namespace PrototypeForge.Unity.Composition
             {
                 _comparisonView.CloneRequested -= HandleCloneRequested;
                 _comparisonView.OverchargeRequested -= HandleOverchargeRequested;
+                _comparisonView.ClearRequested -= HandleClearRequested;
             }
         }
 

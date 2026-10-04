@@ -8,9 +8,7 @@ namespace PrototypeForge.Unity.Visuals
 {
     public sealed class EnemySpawner : MonoBehaviour
     {
-        [SerializeField] private Transform _spawnOrigin;
-        [SerializeField] private Vector3 _spawnSpacing = new(2.5f, 0f, 2.5f);
-        [SerializeField, Min(1)] private int _columns = 4;
+        [SerializeField] private Transform[] _spawnSlots;
 
         private readonly List<EnemyActor> _spawnedActors = new();
 
@@ -19,6 +17,10 @@ namespace PrototypeForge.Unity.Visuals
 
         private bool _isInitialized;
 
+        public int SpawnedCount => _spawnedActors.Count;
+        public int Capacity => _spawnSlots.Length;
+        public bool HasCapacity => _isInitialized && _spawnedActors.Count < _spawnSlots.Length;
+
         public void Initialize(PrototypeRegistry<EnemyPrototype> registry, EnemyVisualCatalog visualCatalog)
         {
             if (_isInitialized)
@@ -26,15 +28,7 @@ namespace PrototypeForge.Unity.Visuals
                 throw new InvalidOperationException($"{nameof(EnemySpawner)} has already been initialized.");
             }
 
-            if (_spawnOrigin == null)
-            {
-                throw new InvalidOperationException($"{nameof(EnemySpawner)} requires a Spawn Origin.");
-            }
-
-            if (_columns <= 0)
-            {
-                throw new InvalidOperationException($"{nameof(EnemySpawner)} columns must be greater than zero.");
-            }
+            ValidateConfiguration();
 
             _registry = registry ?? throw new ArgumentNullException(nameof(registry));
             _visualCatalog = visualCatalog != null ? visualCatalog : throw new ArgumentNullException(nameof(visualCatalog));
@@ -42,25 +36,31 @@ namespace PrototypeForge.Unity.Visuals
             _isInitialized = true;
         }
 
-        public EnemyActor Spawn(PrototypeId id)
+        public bool TrySpawn(PrototypeId id, out EnemyActor actor)
         {
             EnsureInitialized();
+
+            if (!HasCapacity)
+            {
+                actor = null;
+                return false;
+            }
 
             EnemyPrototype clone = _registry.Create(id);
             EnemyVisualDefinition visual = _visualCatalog.Get(id);
 
-            Vector3 position = GetNextSpawnPosition();
+            Transform slot = _spawnSlots[_spawnedActors.Count];
 
-            EnemyActor actor = Instantiate(
+            actor = Instantiate(
                 visual.Prefab,
-                position,
-                _spawnOrigin.rotation);
+                slot.position,
+                slot.rotation);
 
             actor.Initialize(clone);
 
             _spawnedActors.Add(actor);
 
-            return actor;
+            return true;
         }
 
         public void ClearAll()
@@ -78,23 +78,27 @@ namespace PrototypeForge.Unity.Visuals
             _spawnedActors.Clear();
         }
 
-        private Vector3 GetNextSpawnPosition()
-        {
-            int index = _spawnedActors.Count;
-
-            int column = index % _columns;
-            int row = index / _columns;
-
-            return _spawnOrigin.position +
-                   Vector3.right * (_spawnSpacing.x * column) +
-                   Vector3.forward * (_spawnSpacing.z * row);
-        }
-
         private void EnsureInitialized()
         {
             if (!_isInitialized)
             {
                 throw new InvalidOperationException($"{nameof(EnemySpawner)} has not been initialized.");
+            }
+        }
+
+        private void ValidateConfiguration()
+        {
+            if (_spawnSlots == null || _spawnSlots.Length == 0)
+            {
+                throw new InvalidOperationException($"{nameof(EnemySpawner)} requires at least one spawn slot.");
+            }
+
+            for (int i = 0; i < _spawnSlots.Length; i++)
+            {
+                if (_spawnSlots[i] == null)
+                {
+                    throw new InvalidOperationException($"{nameof(EnemySpawner)} contains a null spawn slot at index {i}.");
+                }
             }
         }
 
