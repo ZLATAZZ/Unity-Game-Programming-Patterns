@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using PrototypeForge.Core.Enemies;
 using PrototypeForge.Core.Prototypes;
 using UnityEngine;
@@ -7,11 +8,14 @@ namespace PrototypeForge.Unity.Visuals
 {
     public sealed class EnemySpawner : MonoBehaviour
     {
-        [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private Transform _spawnOrigin;
+        [SerializeField] private Vector3 _spawnSpacing = new(2.5f, 0f, 2.5f);
+        [SerializeField, Min(1)] private int _columns = 4;
+
+        private readonly List<EnemyActor> _spawnedActors = new();
 
         private PrototypeRegistry<EnemyPrototype> _registry;
         private EnemyVisualCatalog _visualCatalog;
-        private EnemyActor _activeActor;
 
         private bool _isInitialized;
 
@@ -22,9 +26,14 @@ namespace PrototypeForge.Unity.Visuals
                 throw new InvalidOperationException($"{nameof(EnemySpawner)} has already been initialized.");
             }
 
-            if (_spawnPoint == null)
+            if (_spawnOrigin == null)
             {
-                throw new InvalidOperationException($"{nameof(EnemySpawner)} requires a spawn point.");
+                throw new InvalidOperationException($"{nameof(EnemySpawner)} requires a Spawn Origin.");
+            }
+
+            if (_columns <= 0)
+            {
+                throw new InvalidOperationException($"{nameof(EnemySpawner)} columns must be greater than zero.");
             }
 
             _registry = registry ?? throw new ArgumentNullException(nameof(registry));
@@ -37,30 +46,48 @@ namespace PrototypeForge.Unity.Visuals
         {
             EnsureInitialized();
 
-            ClearActive();
-
             EnemyPrototype clone = _registry.Create(id);
             EnemyVisualDefinition visual = _visualCatalog.Get(id);
 
-            _activeActor = Instantiate(
+            Vector3 position = GetNextSpawnPosition();
+
+            EnemyActor actor = Instantiate(
                 visual.Prefab,
-                _spawnPoint.position,
-                _spawnPoint.rotation);
+                position,
+                _spawnOrigin.rotation);
 
-            _activeActor.Initialize(clone);
+            actor.Initialize(clone);
 
-            return _activeActor;
+            _spawnedActors.Add(actor);
+
+            return actor;
         }
 
-        public void ClearActive()
+        public void ClearAll()
         {
-            if (_activeActor == null)
+            for (int i = 0; i < _spawnedActors.Count; i++)
             {
-                return;
+                EnemyActor actor = _spawnedActors[i];
+
+                if (actor != null)
+                {
+                    Destroy(actor.gameObject);
+                }
             }
 
-            Destroy(_activeActor.gameObject);
-            _activeActor = null;
+            _spawnedActors.Clear();
+        }
+
+        private Vector3 GetNextSpawnPosition()
+        {
+            int index = _spawnedActors.Count;
+
+            int column = index % _columns;
+            int row = index / _columns;
+
+            return _spawnOrigin.position +
+                   Vector3.right * (_spawnSpacing.x * column) +
+                   Vector3.forward * (_spawnSpacing.z * row);
         }
 
         private void EnsureInitialized()
@@ -69,6 +96,11 @@ namespace PrototypeForge.Unity.Visuals
             {
                 throw new InvalidOperationException($"{nameof(EnemySpawner)} has not been initialized.");
             }
+        }
+
+        private void OnDestroy()
+        {
+            ClearAll();
         }
     }
 }

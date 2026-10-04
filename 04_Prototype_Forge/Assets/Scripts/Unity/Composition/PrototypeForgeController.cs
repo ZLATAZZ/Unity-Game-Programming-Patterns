@@ -29,7 +29,7 @@ namespace PrototypeForge.Unity.Composition
 
         private PrototypeId _selectedPrototypeId;
         private EnemyPrototype _selectedBaseline;
-        private EnemyActor _activeActor;
+        private EnemyActor _currentClone;
 
         private bool _hasSelection;
 
@@ -73,11 +73,10 @@ namespace PrototypeForge.Unity.Composition
 
         private void HandlePrototypeSelected(PrototypeId id)
         {
-            _enemySpawner.ClearActive();
-
-            _activeActor = null;
             _selectedPrototypeId = id;
             _selectedBaseline = _registry.Create(id);
+
+            _currentClone = null;
             _hasSelection = true;
 
             _comparisonView.SetSelectedPrototype(_selectedBaseline);
@@ -91,21 +90,21 @@ namespace PrototypeForge.Unity.Composition
                 throw new InvalidOperationException("Cannot create a clone before selecting a prototype.");
             }
 
-            _activeActor = _enemySpawner.Spawn(_selectedPrototypeId);
+            _currentClone = _enemySpawner.Spawn(_selectedPrototypeId);
 
-            _comparisonView.SetActiveClone(_activeActor.Configuration);
+            _comparisonView.SetActiveClone(_currentClone.Configuration);
         }
 
         private void HandleOverchargeRequested()
         {
-            if (_activeActor == null)
+            if (_currentClone == null)
             {
                 throw new InvalidOperationException("Cannot overcharge because no clone exists.");
             }
 
-            _activeActor.ApplyOvercharge(_overchargeDamageBonus);
+            _currentClone.ApplyOvercharge(_overchargeDamageBonus);
 
-            _comparisonView.SetActiveClone(_activeActor.Configuration);
+            _comparisonView.SetActiveClone(_currentClone.Configuration);
         }
 
         private void OnDestroy()
