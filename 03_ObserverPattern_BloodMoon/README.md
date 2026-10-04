@@ -1,4 +1,6 @@
-# Observer Pattern — Blood Moon
+# Observer Pattern - Blood Moon
+
+https://github.com/user-attachments/assets/e26c11cd-e437-43be-bf69-aef8b5b99e70
 
 A small Unity gameplay scenario demonstrating the Observer pattern through a Blood Moon state transition.
 

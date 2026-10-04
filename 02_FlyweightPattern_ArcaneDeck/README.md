@@ -1,4 +1,6 @@
-# Flyweight Pattern — Witch Cards
+# Flyweight Pattern - Witch Cards
+
+https://github.com/user-attachments/assets/c9925ef6-071c-4eff-9c34-dfa56cb5e36c
 
 A small Unity card example demonstrating the Flyweight pattern by separating shared card data from per-card runtime state.
 

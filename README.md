@@ -8,18 +8,18 @@ The goal is to practice not only the patterns themselves, but also clean archite
 
 ## Patterns
 
-### [01 — Command Pattern](./01_CommandPattern_CarConfigurator/)
+### [01 - Command Pattern](./01_CommandPattern_CarConfigurator/)
 
 A car configurator demonstrating commands, undo/redo history, and reversible state changes.
 
-### [02 — Flyweight Pattern](./02_FlyweightPattern_ArcaneDeck/)
+### [02 - Flyweight Pattern](./02_FlyweightPattern_ArcaneDeck/)
 
 A card-based example separating shared intrinsic data from per-instance runtime state.
 
-### [03 — Observer Pattern](./03_ObserverPattern_BloodMoon/)
+### [03 - Observer Pattern](./03_ObserverPattern_BloodMoon/)
 
 A Blood Moon gameplay scenario where several independent systems react to the same state transition through explicit observers.
 
-### [04 — Prototype Pattern](./04_Prototype_Forge/)
+### [04 - Prototype Pattern](./04_Prototype_Forge/)
 
 A data-driven monster prototype demo using deep cloning, a generic prototype registry, JSON configuration, typed identifiers, and Edit Mode tests.

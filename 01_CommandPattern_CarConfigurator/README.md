@@ -1,4 +1,6 @@
-# Command Pattern — Car Configurator
+# Command Pattern - Car Configurator
+
+https://github.com/user-attachments/assets/e4cc3916-f1ce-4e3d-9ba2-880be1372d1c
 
 A small Unity project demonstrating the Command pattern through a car customization system.
 
