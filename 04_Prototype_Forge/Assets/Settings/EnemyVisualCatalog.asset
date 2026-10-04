@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d1c40c70670a141b3d0fbec19d84cf, type: 3}
+  m_Name: EnemyVisualCatalog
+  m_EditorClassIdentifier: PrototypeForge.Unity::PrototypeForge.Unity.Visuals.EnemyVisualCatalog
+  _entries:
+  - _prototypeId: wisp
+    _icon: {fileID: 1997833183, guid: d4e102eee46d9f2499696d03f4fd6c31, type: 3}
+    _prefab: {fileID: 1104121839124851821, guid: ee77fa1b8fc4edd4981c4f0064a6766d, type: 3}
+  - _prototypeId: shade
+    _icon: {fileID: -118322976, guid: f42f2a3800cdb6145828c7498dc36f0b, type: 3}
+    _prefab: {fileID: 7391606883782653095, guid: 699f644c76183b245b91def78d9c181f, type: 3}
+  - _prototypeId: brute
+    _icon: {fileID: 176183196, guid: 8110dc43ea3402b4692eaafcdfc7fe90, type: 3}
+    _prefab: {fileID: 1357753311479253172, guid: d9b462ed39db8584e8d1a7abf9260729, type: 3}

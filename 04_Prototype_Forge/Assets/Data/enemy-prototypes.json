@@ -1,0 +1,37 @@
+{
+    "prototypes": [
+        {
+            "id": "wisp",
+            "displayName": "Wisp",
+            "maxHealth": 40,
+            "moveSpeed": 6.0,
+            "weapon": {
+                "id": "spark-bolt",
+                "damage": 8,
+                "cooldown": 0.3
+            }
+        },
+        {
+            "id": "brute",
+            "displayName": "Brute",
+            "maxHealth": 180,
+            "moveSpeed": 2.0,
+            "weapon": {
+                "id": "heavy-strike",
+                "damage": 25,
+                "cooldown": 1.2
+            }
+        },
+        {
+            "id": "shade",
+            "displayName": "Shade",
+            "maxHealth": 80,
+            "moveSpeed": 4.5,
+            "weapon": {
+                "id": "shadow-blade",
+                "damage": 14,
+                "cooldown": 0.7
+            }
+        }
+    ]
+}
