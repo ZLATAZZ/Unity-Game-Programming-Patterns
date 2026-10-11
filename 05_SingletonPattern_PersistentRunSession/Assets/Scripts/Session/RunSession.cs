@@ -22,7 +22,6 @@ namespace Patterns.Singleton.Session
 
         public int Score { get; private set; }
         public int CollectedCrystals { get; private set; }
-        public int CurrentLevel { get; private set; } = 1;
 
         public event Action StateChanged;
 
@@ -50,36 +49,23 @@ namespace Patterns.Singleton.Session
         {
             if (amount <= 0)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(amount),
-                    "Score amount must be greater than zero.");
+                throw new ArgumentOutOfRangeException(nameof(amount), "Score reward must be greater than zero.");
             }
 
-            Score += amount;
-
+            Score = checked(Score + amount);
             StateChanged?.Invoke();
         }
 
         public void CollectCrystal()
         {
-            CollectedCrystals++;
-
+            CollectedCrystals = checked(CollectedCrystals + 1);
             StateChanged?.Invoke();
         }
 
-        public void AdvanceLevel()
-        {
-            CurrentLevel++;
-
-            StateChanged?.Invoke();
-        }
-
-        public void ResetRun()
+        public void ResetProgress()
         {
             Score = 0;
             CollectedCrystals = 0;
-            CurrentLevel = 1;
-
             StateChanged?.Invoke();
         }
     }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c12461b135e8dd94aac3c80cb76140e6, type: 3}
+  m_Name: LevelSequence
+  m_EditorClassIdentifier: Assembly-CSharp::Patterns.Singleton.Levels.LevelSequenceConfig
+  _levels:
+  - _scene:
+      _sceneAsset: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+      _scenePath: Assets/Scenes/Forest.unity
+    _requiredScore: 300
+    _requiredCrystals: 3
+  - _scene:
+      _sceneAsset: {fileID: 102900000, guid: 9f15d0e195fbcc844b21be0659ecdda4, type: 3}
+      _scenePath: Assets/Scenes/Dungeon.unity
+    _requiredScore: 600
+    _requiredCrystals: 6

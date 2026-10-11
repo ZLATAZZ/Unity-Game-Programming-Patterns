@@ -1,4 +1,5 @@
 using System;
+using Patterns.Singleton.Levels;
 using Patterns.Singleton.Session;
 using TMPro;
 using UnityEngine;
@@ -9,27 +10,34 @@ namespace Patterns.Singleton.UI
     {
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _crystalsText;
-        [SerializeField] private TMP_Text _levelText;
 
         private RunSession _session;
+        private LevelDefinition _level;
+        private bool _isInitialized;
         private bool _isSubscribed;
 
-        private void Awake()
+        public void Initialize(LevelDefinition level)
         {
+            if (_isInitialized)
+            {
+                throw new InvalidOperationException($"{nameof(RunHud)} is already initialized.");
+            }
+
             ValidateConfiguration();
-        }
-
-        private void Start()
-        {
             _session = RunSession.Instance;
+            _level = level ?? throw new ArgumentNullException(nameof(level));
+            _isInitialized = true;
 
-            Subscribe();
-            Refresh();
+            if (isActiveAndEnabled)
+            {
+                Subscribe();
+                Refresh();
+            }
         }
 
         private void OnEnable()
         {
-            if (_session == null)
+            if (!_isInitialized)
             {
                 return;
             }
@@ -41,6 +49,17 @@ namespace Patterns.Singleton.UI
         private void OnDisable()
         {
             Unsubscribe();
+        }
+
+        private void OnDestroy()
+        {
+            Unsubscribe();
+        }
+
+        private void Refresh()
+        {
+            _scoreText.text = $"Score: {_session.Score} / {_level.RequiredScore}";
+            _crystalsText.text = $"Crystals: {_session.CollectedCrystals} / {_level.RequiredCrystals}";
         }
 
         private void Subscribe()
@@ -56,37 +75,24 @@ namespace Patterns.Singleton.UI
 
         private void Unsubscribe()
         {
-            if (!_isSubscribed || _session == null)
+            if (!_isSubscribed)
             {
                 return;
             }
 
-            _session.StateChanged -= Refresh;
-            _isSubscribed = false;
-        }
+            if (_session != null)
+            {
+                _session.StateChanged -= Refresh;
+            }
 
-        private void Refresh()
-        {
-            _scoreText.text = $"Score: {_session.Score}";
-            _crystalsText.text = $"Crystals: {_session.CollectedCrystals}";
-            _levelText.text = $"Level: {_session.CurrentLevel}";
+            _isSubscribed = false;
         }
 
         private void ValidateConfiguration()
         {
-            if (_scoreText == null)
+            if (_scoreText == null || _crystalsText == null)
             {
-                throw new InvalidOperationException($"{nameof(RunHud)} requires a score text reference.");
-            }
-
-            if (_crystalsText == null)
-            {
-                throw new InvalidOperationException($"{nameof(RunHud)} requires a crystals text reference.");
-            }
-
-            if (_levelText == null)
-            {
-                throw new InvalidOperationException($"{nameof(RunHud)} requires a level text reference.");
+                throw new InvalidOperationException($"{nameof(RunHud)} requires score and crystal text references.");
             }
         }
     }
