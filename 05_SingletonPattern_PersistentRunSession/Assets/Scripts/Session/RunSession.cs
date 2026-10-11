@@ -5,29 +5,44 @@ namespace Patterns.Singleton.Session
 {
     public sealed class RunSession : MonoBehaviour
     {
-        public static RunSession Instance { get; private set; }
+        private static RunSession _instance;
+
+        public static RunSession Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    throw new InvalidOperationException($"{nameof(RunSession)} instance is not initialized.");
+                }
+
+                return _instance;
+            }
+        }
 
         public int Score { get; private set; }
         public int CollectedCrystals { get; private set; }
         public int CurrentLevel { get; private set; } = 1;
 
+        public event Action StateChanged;
+
         private void Awake()
         {
-            if (Instance != null && Instance != this)
+            if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
 
-            Instance = this;
+            _instance = this;
             DontDestroyOnLoad(gameObject);
         }
 
         private void OnDestroy()
         {
-            if (Instance == this)
+            if (_instance == this)
             {
-                Instance = null;
+                _instance = null;
             }
         }
 
@@ -35,20 +50,28 @@ namespace Patterns.Singleton.Session
         {
             if (amount <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(amount), "Score amount must be greater than zero.");
+                throw new ArgumentOutOfRangeException(
+                    nameof(amount),
+                    "Score amount must be greater than zero.");
             }
 
             Score += amount;
+
+            StateChanged?.Invoke();
         }
 
         public void CollectCrystal()
         {
             CollectedCrystals++;
+
+            StateChanged?.Invoke();
         }
 
         public void AdvanceLevel()
         {
             CurrentLevel++;
+
+            StateChanged?.Invoke();
         }
 
         public void ResetRun()
@@ -56,6 +79,8 @@ namespace Patterns.Singleton.Session
             Score = 0;
             CollectedCrystals = 0;
             CurrentLevel = 1;
+
+            StateChanged?.Invoke();
         }
     }
 }

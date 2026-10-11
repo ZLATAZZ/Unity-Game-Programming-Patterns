@@ -15,27 +15,17 @@ namespace Patterns.Singleton.Gameplay
 
         public void DefeatEnemy()
         {
-            GetSession().AddScore(_enemyDefeatScoreReward);
+            RunSession.Instance.AddScore(_enemyDefeatScoreReward);
         }
 
         public void CollectCrystal()
         {
-            GetSession().CollectCrystal();
+            RunSession.Instance.CollectCrystal();
         }
 
         public void ResetRun()
         {
-            GetSession().ResetRun();
-        }
-
-        private RunSession GetSession()
-        {
-            if (RunSession.Instance == null)
-            {
-                throw new InvalidOperationException("RunSession instance is not initialized.");
-            }
-
-            return RunSession.Instance;
+            RunSession.Instance.ResetRun();
         }
 
         private void ValidateConfiguration()
