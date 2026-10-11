@@ -23,3 +23,9 @@ A Blood Moon gameplay scenario where several independent systems react to the sa
 ### [04 - Prototype Pattern](./04_Prototype_Forge/)
 
 A data-driven monster prototype demo using deep cloning, a generic prototype registry, JSON configuration, typed identifiers, and Edit Mode tests.
+
+### [05 - Singleton Pattern](./05_SingletonPattern_PersistentRunSession/)
+
+A persistent game-session demo across two Unity scenes, demonstrating instance management, global access, and shared state.
+
+**Architectural perspective:** This example intentionally uses Singleton to demonstrate both its convenience and its limitations, particularly hidden dependencies and global mutable state.
