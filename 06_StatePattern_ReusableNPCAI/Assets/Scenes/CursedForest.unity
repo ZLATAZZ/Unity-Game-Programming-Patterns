@@ -428,6 +428,9 @@ GameObject:
   - component: {fileID: 681177218}
   - component: {fileID: 681177222}
   - component: {fileID: 681177221}
+  - component: {fileID: 681177224}
+  - component: {fileID: 681177223}
+  - component: {fileID: 681177225}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -517,14 +520,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad20e1f610c4ce438bb790ce9b0947d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: CursedForest.Unity::CursedForest.Unity.Composition.AgentInstaller
+  _brainDefinition: {fileID: 0}
   _movement: {fileID: 681177219}
   _perception: {fileID: 681177218}
+  _combat: {fileID: 0}
+  _escapePlanner: {fileID: 0}
   _patrolWaypoints:
   - {fileID: 375877853}
   - {fileID: 1569972105}
   - {fileID: 1913250539}
   - {fileID: 1462631226}
-  _patrolStateId: patrol
+  _useEnergy: 0
+  _maximumEnergy: 100
+  _initialEnergy: 100
 --- !u!114 &681177222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,6 +551,47 @@ MonoBehaviour:
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
+--- !u!114 &681177223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681177216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43aeaf60acd1568459e9d4aebc96c79e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CursedForest.Unity::CursedForest.Unity.Combat.DeactivateOnDeath
+--- !u!114 &681177224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681177216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2871cfc702bad5f4fa13029cac0152e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CursedForest.Unity::CursedForest.Unity.Combat.DamageableHealth
+  _maximumHealth: 100
+--- !u!114 &681177225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681177216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18aadc05a423e334d88411f7ad1901fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CursedForest.Unity::CursedForest.Unity.Combat.MeleeCombat
+  _attackRange: 2
+  _damage: 20
+  _attackCooldown: 1
+  _attackOrigin: {fileID: 681177217}
 --- !u!1 &739392902
 GameObject:
   m_ObjectHideFlags: 0
