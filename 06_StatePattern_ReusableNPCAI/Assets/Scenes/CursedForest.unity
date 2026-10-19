@@ -602,6 +602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: CursedForest.Unity::CursedForest.Unity.Perception.DamageReactionPerception
   _observedHealth: {fileID: 1416258183}
   _memorySeconds: 12
+  _rememberUntilTargetDisabled: 1
 --- !u!114 &415112169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1654,6 +1655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: CursedForest.Unity::CursedForest.Unity.Perception.DamageReactionPerception
   _observedHealth: {fileID: 1416258183}
   _memorySeconds: 12
+  _rememberUntilTargetDisabled: 0
 --- !u!1 &1462631225
 GameObject:
   m_ObjectHideFlags: 0
