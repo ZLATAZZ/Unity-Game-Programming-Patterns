@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4c392e2d2ff3f364baab2a3dc949659a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 351132
+  packageName: Knight with Sword
+  packageVersion: 1.0
+  assetPath: Assets/Knight with Sword/Materials/M_Ground.mat
+  uploadId: 838470
