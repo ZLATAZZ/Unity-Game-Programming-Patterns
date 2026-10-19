@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a11c6c0ad073d439f4b10a96b50f1d, type: 3}
+  m_Name: BrainMonster
+  m_EditorClassIdentifier: CursedForest.Unity::CursedForest.Unity.Brain.Definitions.BrainDefinition
+  _initialState: {fileID: 11400000, guid: 866f43f85eaeea44eac2b85d44afa575, type: 2}
+  _states:
+  - {fileID: 11400000, guid: 866f43f85eaeea44eac2b85d44afa575, type: 2}
+  - {fileID: 11400000, guid: dbbd8c5691110bd4c9b12cd9714a4fa0, type: 2}
+  - {fileID: 11400000, guid: 2e4382459f4490e47b4035126c64d786, type: 2}
+  - {fileID: 11400000, guid: f5dc65312d9874a4785cca8ef8ba8968, type: 2}
+  _transitions:
+  - _from: {fileID: 11400000, guid: 866f43f85eaeea44eac2b85d44afa575, type: 2}
+    _to: {fileID: 11400000, guid: f5dc65312d9874a4785cca8ef8ba8968, type: 2}
+    _priority: 200
+    _condition: {fileID: 11400000, guid: 103386b46d62ad8458f8fd5adf91c80f, type: 2}
+  - _from: {fileID: 11400000, guid: 866f43f85eaeea44eac2b85d44afa575, type: 2}
+    _to: {fileID: 11400000, guid: dbbd8c5691110bd4c9b12cd9714a4fa0, type: 2}
+    _priority: 100
+    _condition: {fileID: 11400000, guid: 0739a1b95dc71034bbbddf080005e282, type: 2}
+  - _from: {fileID: 11400000, guid: dbbd8c5691110bd4c9b12cd9714a4fa0, type: 2}
+    _to: {fileID: 11400000, guid: f5dc65312d9874a4785cca8ef8ba8968, type: 2}
+    _priority: 200
+    _condition: {fileID: 11400000, guid: 103386b46d62ad8458f8fd5adf91c80f, type: 2}
+  - _from: {fileID: 11400000, guid: dbbd8c5691110bd4c9b12cd9714a4fa0, type: 2}
+    _to: {fileID: 11400000, guid: 866f43f85eaeea44eac2b85d44afa575, type: 2}
+    _priority: 100
+    _condition: {fileID: 11400000, guid: 9dc6443813fb2df49bb0d3563b8176b2, type: 2}
+  - _from: {fileID: 11400000, guid: dbbd8c5691110bd4c9b12cd9714a4fa0, type: 2}
+    _to: {fileID: 11400000, guid: 2e4382459f4490e47b4035126c64d786, type: 2}
+    _priority: 90
+    _condition: {fileID: 11400000, guid: 11e4ade472df4b14d91eebc7662b75be, type: 2}
+  - _from: {fileID: 11400000, guid: 2e4382459f4490e47b4035126c64d786, type: 2}
+    _to: {fileID: 11400000, guid: f5dc65312d9874a4785cca8ef8ba8968, type: 2}
+    _priority: 200
+    _condition: {fileID: 11400000, guid: 103386b46d62ad8458f8fd5adf91c80f, type: 2}
+  - _from: {fileID: 11400000, guid: 2e4382459f4490e47b4035126c64d786, type: 2}
+    _to: {fileID: 11400000, guid: 866f43f85eaeea44eac2b85d44afa575, type: 2}
+    _priority: 100
+    _condition: {fileID: 11400000, guid: 9dc6443813fb2df49bb0d3563b8176b2, type: 2}
+  - _from: {fileID: 11400000, guid: 2e4382459f4490e47b4035126c64d786, type: 2}
+    _to: {fileID: 11400000, guid: dbbd8c5691110bd4c9b12cd9714a4fa0, type: 2}
+    _priority: 90
+    _condition: {fileID: 11400000, guid: e4b88269d41e63b44b990356ac579f26, type: 2}
+  - _from: {fileID: 11400000, guid: 2e4382459f4490e47b4035126c64d786, type: 2}
+    _to: {fileID: 11400000, guid: dbbd8c5691110bd4c9b12cd9714a4fa0, type: 2}
+    _priority: 90
+    _condition: {fileID: 11400000, guid: e4b88269d41e63b44b990356ac579f26, type: 2}
+  - _from: {fileID: 11400000, guid: f5dc65312d9874a4785cca8ef8ba8968, type: 2}
+    _to: {fileID: 11400000, guid: 866f43f85eaeea44eac2b85d44afa575, type: 2}
+    _priority: 100
+    _condition: {fileID: 11400000, guid: bbd169f0d817cc842abebc7fd95050ef, type: 2}

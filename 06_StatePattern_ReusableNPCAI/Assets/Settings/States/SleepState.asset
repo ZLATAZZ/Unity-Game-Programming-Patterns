@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: SleepState
   m_EditorClassIdentifier: CursedForest.Unity::CursedForest.Unity.Brain.Definitions.States.SleepStateDefinition
   _stateId: sleep
-  _recoveryPerSecond: 10
+  _recoveryPerSecond: 20

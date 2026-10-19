@@ -8,7 +8,6 @@ using CursedForest.Unity.Brain.Runtime;
 using CursedForest.Unity.Combat;
 using CursedForest.Unity.Movement;
 using CursedForest.Unity.Navigation;
-using CursedForest.Unity.Perception;
 using UnityEngine;
 using Zenject;
 
@@ -16,27 +15,28 @@ namespace CursedForest.Unity.Composition
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(NavMeshAgentMovement))]
-    [RequireComponent(typeof(NearestTargetPerception))]
     public sealed class AgentInstaller : MonoInstaller
     {
         [Header("Brain")]
         [SerializeField] private BrainDefinition _brainDefinition;
 
-        [Header("Required agent components")]
+        [Header("Required capabilities (on this agent)")]
         [SerializeField] private NavMeshAgentMovement _movement;
-        [SerializeField] private NearestTargetPerception _perception;
+        [Tooltip("A component implementing IAgentPerception: NearestTargetPerception or DamageReactionPerception.")]
+        [SerializeField] private MonoBehaviour _perception;
 
-        [Header("Optional capabilities")]
+        [Header("Optional capabilities (on this agent)")]
         [SerializeField] private MeleeCombat _combat;
         [SerializeField] private NavMeshEscapePlanner _escapePlanner;
 
-        [Header("Patrol route (scene references; not stored in BrainDefinition)")]
+        [Header("Patrol points (scene objects, NOT prefab children)")]
         [SerializeField] private Transform[] _patrolWaypoints = Array.Empty<Transform>();
 
-        [Header("Energy (only enable for agents that use it)")]
+        [Header("Energy (enable for Monster's Sleep)")]
         [SerializeField] private bool _useEnergy;
         [SerializeField, Min(0.01f)] private float _maximumEnergy = 100f;
         [SerializeField, Min(0f)] private float _initialEnergy = 100f;
+        [SerializeField, Min(0f)] private float _energyCostPerMeter = 2f;
 
         public override void InstallBindings()
         {
@@ -47,18 +47,25 @@ namespace CursedForest.Unity.Composition
 
             if (_movement == null || _perception == null)
             {
-                throw new InvalidOperationException($"Agent '{name}' is missing required movement or perception references.");
+                throw new InvalidOperationException($"Agent '{name}' has no movement or perception component assigned.");
             }
 
             if (_movement.gameObject != gameObject || _perception.gameObject != gameObject)
             {
-                throw new InvalidOperationException("Movement and perception must belong to the agent GameObject.");
+                throw new InvalidOperationException("Movement and perception must be components on this NPC root.");
+            }
+
+            IAgentPerception perception = _perception as IAgentPerception;
+
+            if (perception == null)
+            {
+                throw new InvalidOperationException($"Agent '{name}': the Perception component must implement IAgentPerception.");
             }
 
             if ((_combat != null && _combat.gameObject != gameObject) ||
                 (_escapePlanner != null && _escapePlanner.gameObject != gameObject))
             {
-                throw new InvalidOperationException("Optional capabilities must belong to the agent GameObject.");
+                throw new InvalidOperationException("Combat and escape planner must belong to this NPC root.");
             }
 
             Transform[] waypoints = _patrolWaypoints ?? Array.Empty<Transform>();
@@ -74,14 +81,9 @@ namespace CursedForest.Unity.Composition
                 patrolPositions[i] = waypoints[i].position;
             }
 
-            IAgentEnergy energy = null;
+            IAgentEnergy energy = _useEnergy ? new AgentEnergy(_maximumEnergy, _initialEnergy) : null;
+            AgentContext agentContext = new AgentContext(_movement, perception);
 
-            if (_useEnergy)
-            {
-                energy = new AgentEnergy(_maximumEnergy, _initialEnergy);
-            }
-
-            var agentContext = new AgentContext(_movement, _perception);
             var dependencies = new AgentRuntimeDependencies(
                 agentContext,
                 _combat,
@@ -92,7 +94,7 @@ namespace CursedForest.Unity.Composition
             BrainRuntime runtime = BrainBuilder.Build(_brainDefinition, dependencies);
 
             Container.Bind<IAgentMovement>().FromInstance(_movement);
-            Container.Bind<IAgentPerception>().FromInstance(_perception);
+            Container.Bind<IAgentPerception>().FromInstance(perception);
             Container.Bind<AgentContext>().FromInstance(agentContext);
             Container.Bind<StateMachine<AgentContext>>().FromInstance(runtime.StateMachine);
             Container.BindInstance(runtime.InitialStateId);
@@ -110,6 +112,14 @@ namespace CursedForest.Unity.Composition
             if (energy != null)
             {
                 Container.Bind<IAgentEnergy>().FromInstance(energy);
+
+                if (_energyCostPerMeter > 0f)
+                {
+                    Container.BindInterfacesTo<MovementEnergyDrain>()
+                        .AsSingle()
+                        .WithArguments(_energyCostPerMeter)
+                        .NonLazy();
+                }
             }
 
             Container.BindInterfacesTo<AgentBrain>().AsSingle().NonLazy();
