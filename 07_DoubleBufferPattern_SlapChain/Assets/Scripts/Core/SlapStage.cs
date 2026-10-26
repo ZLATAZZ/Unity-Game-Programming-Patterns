@@ -3,10 +3,6 @@ using System.Collections.Generic;
 
 namespace Patterns.DoubleBuffer.Core
 {
-    /// <summary>
-    /// Runs a single-threaded simulation in explicit evaluate/publish phases.
-    /// Splitting the phases makes in-progress buffer state observable in the demo.
-    /// </summary>
     public sealed class SlapStage
     {
         private readonly SlapActor[] _actors;

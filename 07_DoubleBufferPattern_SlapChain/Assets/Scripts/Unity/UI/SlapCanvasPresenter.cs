@@ -17,7 +17,6 @@ namespace Patterns.DoubleBuffer.Unity.UI
         [SerializeField] private Text _tickLabel;
         [SerializeField] private Text _phaseLabel;
         [SerializeField] private Text _insightLabel;
-        [SerializeField] private Text _comparisonLabel;
         [SerializeField] private Text _autoButtonLabel;
         [SerializeField] private SlapStageCardView[] _cards;
 
@@ -25,7 +24,7 @@ namespace Patterns.DoubleBuffer.Unity.UI
         private bool _isAutoPlaying;
         private float _elapsedSeconds;
 
-        public void Configure(Button evaluateButton, Button publishButton, Button tickButton, Button autoButton, Button resetButton, Text tickLabel, Text phaseLabel, Text insightLabel, Text comparisonLabel, Text autoButtonLabel, SlapStageCardView[] cards)
+        public void Configure(Button evaluateButton, Button publishButton, Button tickButton, Button autoButton, Button resetButton, Text tickLabel, Text phaseLabel, Text insightLabel, Text autoButtonLabel, SlapStageCardView[] cards)
         {
             _evaluateButton = evaluateButton;
             _publishButton = publishButton;
@@ -35,7 +34,6 @@ namespace Patterns.DoubleBuffer.Unity.UI
             _tickLabel = tickLabel;
             _phaseLabel = phaseLabel;
             _insightLabel = insightLabel;
-            _comparisonLabel = comparisonLabel;
             _autoButtonLabel = autoButtonLabel;
             _cards = cards;
         }
@@ -158,38 +156,6 @@ namespace Patterns.DoubleBuffer.Unity.UI
             {
                 _insightLabel.text = "TICK COMPLETE  /  All actors will be evaluated again next tick. In buffered mode, each actor reads the same logical snapshot.";
             }
-
-            if (_comparison.CompletedTicks == 0 && !_comparison.IsAwaitingPublication)
-            {
-                _comparisonLabel.text = "EXPERIMENT   Change only update order - not the initial conditions.";
-                return;
-            }
-
-            bool bufferedSame = HasMatchingReactions(_comparison.Stages[1], _comparison.Stages[3]);
-            bool immediateSame = HasMatchingReactions(_comparison.Stages[0], _comparison.Stages[2]);
-
-            _comparisonLabel.text = "REACTION ORDER INVARIANCE     BUFFERED: "
-                + (bufferedSame ? "MATCH" : "DIFFERENT")
-                + "       IMMEDIATE: " + (immediateSame ? "MATCH THIS TICK" : "DIFFERENT");
-        }
-
-        private static bool HasMatchingReactions(SlapStage first, SlapStage second)
-        {
-            if (first.Reactions.Count != second.Reactions.Count)
-            {
-                return false;
-            }
-
-            for (int index = 0; index < first.Reactions.Count; index++)
-            {
-                if (first.Reactions[index].Source != second.Reactions[index].Source ||
-                    first.Reactions[index].Target != second.Reactions[index].Target)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }

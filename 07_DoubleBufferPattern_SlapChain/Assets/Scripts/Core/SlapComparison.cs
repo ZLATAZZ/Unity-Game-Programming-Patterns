@@ -3,9 +3,6 @@ using System.Collections.Generic;
 
 namespace Patterns.DoubleBuffer.Core
 {
-    /// <summary>
-    /// Runs all four experiments against the same initial state and logical clock.
-    /// </summary>
     public sealed class SlapComparison
     {
         private readonly SlapStage[] _stages;
