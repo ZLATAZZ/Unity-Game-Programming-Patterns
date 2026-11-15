@@ -1,0 +1,12 @@
+# Restore the initial demo state.
+
+PUSH 1
+WRITE Scale
+
+PUSH 4
+WRITE MoveSpeed
+
+PUSH 100
+WRITE Health
+
+END

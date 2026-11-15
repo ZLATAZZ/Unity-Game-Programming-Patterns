@@ -1,0 +1,18 @@
+# Demonstrates composition through the VM stack.
+#
+# scale = scale * 1.15
+# moveSpeed = moveSpeed + health / 50
+
+READ Scale
+PUSH 1.15
+MUL
+WRITE Scale
+
+READ MoveSpeed
+READ Health
+PUSH 50
+DIV
+ADD
+WRITE MoveSpeed
+
+END

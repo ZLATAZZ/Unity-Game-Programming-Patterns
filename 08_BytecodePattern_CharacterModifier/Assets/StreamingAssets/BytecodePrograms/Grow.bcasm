@@ -1,0 +1,9 @@
+# External bytecode-assembly source.
+# Edit 1.25 while the game is running, save the file, then click Grow again.
+# No C# recompilation is required.
+
+READ Scale
+PUSH 1.25
+MUL
+WRITE Scale
+END
