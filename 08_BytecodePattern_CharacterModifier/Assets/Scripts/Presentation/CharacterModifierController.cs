@@ -13,9 +13,7 @@ namespace CharacterModifierBytecodeDemo.Presentation
 
         [SerializeField] private CharacterModifierTarget _target;
         [SerializeField] private TMP_Text _stateText;
-        [SerializeField] private TMP_Text _programText;
         [SerializeField] private TMP_Text _sourceText;
-        [SerializeField] private TMP_Text _pathText;
 
         private readonly BytecodeVm _vm = new BytecodeVm();
         private readonly BytecodeCompiler _compiler = new BytecodeCompiler();
@@ -39,21 +37,11 @@ namespace CharacterModifierBytecodeDemo.Presentation
 
             RefreshStateText();
 
-            if (_programText != null)
-            {
-                _programText.text = "Last program: none";
-            }
-
             if (_sourceText != null)
             {
                 _sourceText.text =
                     "External program source will appear here.\n\n" +
                     "Edit a .bcasm file in StreamingAssets, save it, then click its button again.";
-            }
-
-            if (_pathText != null)
-            {
-                _pathText.text = $"Program folder:\n{_loader.GetDisplayPath(string.Empty)}";
             }
         }
 
@@ -81,9 +69,7 @@ namespace CharacterModifierBytecodeDemo.Presentation
         {
             _target = target;
             _stateText = stateText;
-            _programText = programText;
             _sourceText = sourceText;
-            _pathText = pathText;
         }
 
         private IEnumerator LoadCompileAndExecute(string fileName)
@@ -114,13 +100,6 @@ namespace CharacterModifierBytecodeDemo.Presentation
             {
                 BytecodeProgram program = _compiler.Compile(fileName, source, _symbolTable);
                 _vm.Execute(program, _context);
-
-                if (_programText != null)
-                {
-                    _programText.text =
-                        $"Executed: {fileName}\n" +
-                        $"Compiled bytecode size: {program.Code.Length} bytes";
-                }
             }
             catch (Exception exception)
             {
@@ -148,11 +127,6 @@ namespace CharacterModifierBytecodeDemo.Presentation
         private void ShowError(string message)
         {
             Debug.LogError(message);
-
-            if (_programText != null)
-            {
-                _programText.text = $"ERROR\n{message}";
-            }
         }
     }
 }
