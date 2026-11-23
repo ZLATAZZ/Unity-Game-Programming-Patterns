@@ -1,0 +1,7 @@
+# moveSpeed = moveSpeed + 1.5
+
+READ MoveSpeed
+PUSH 1.5
+ADD
+WRITE MoveSpeed
+END

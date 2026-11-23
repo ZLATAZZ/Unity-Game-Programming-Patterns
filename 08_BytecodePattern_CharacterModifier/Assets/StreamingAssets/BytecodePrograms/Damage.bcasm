@@ -1,0 +1,7 @@
+# health = health - 25
+
+READ Health
+PUSH 25
+SUB
+WRITE Health
+END

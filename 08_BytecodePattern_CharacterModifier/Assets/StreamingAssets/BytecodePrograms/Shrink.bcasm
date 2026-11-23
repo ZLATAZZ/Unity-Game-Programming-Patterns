@@ -1,0 +1,7 @@
+# scale = scale * 0.8
+
+READ Scale
+PUSH 0.8
+MUL
+WRITE Scale
+END
